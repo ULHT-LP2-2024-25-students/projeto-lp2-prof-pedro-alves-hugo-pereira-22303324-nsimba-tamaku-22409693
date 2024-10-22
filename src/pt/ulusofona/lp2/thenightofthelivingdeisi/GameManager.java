@@ -25,8 +25,8 @@ public class GameManager {
         int id = Integer.parseInt(parts[0].trim());
         TypeCreature typeCreature = Objects.equals(parts[1].trim(), "1") ? TypeCreature.HUMANO : TypeCreature.ZOMBIE;
         String name = parts[2].trim();
-        int row = Integer.parseInt(parts[3].trim());
-        int col = Integer.parseInt(parts[4].trim());
+        int col = Integer.parseInt(parts[3].trim()); //Sim, as colunas sao lidas primeiro
+        int row = Integer.parseInt(parts[4].trim());
         return new Creature(name, id, typeCreature, row, col, null);
     }
 
@@ -35,8 +35,8 @@ public class GameManager {
         String[] parts = newLine.split(":");
         int id = Integer.parseInt(parts[0].trim());
         TypeEquipment typeEquipment = Objects.equals(parts[1].trim(), "1") ? TypeEquipment.ESPADA : TypeEquipment.ESCUDO;
-        int row = Integer.parseInt(parts[2].trim());
-        int col = Integer.parseInt(parts[3].trim());
+        int col = Integer.parseInt(parts[2].trim());
+        int row = Integer.parseInt(parts[3].trim());
         return new Equipment(id, typeEquipment, row, col, null);
     }
 
@@ -47,6 +47,7 @@ public class GameManager {
         int nCreatures, nEquipments;
         ArrayList<Creature> creatures = new ArrayList<>();
         ArrayList<Equipment> equipments = new ArrayList<>();
+
         /* leitura do ficheiro */
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
@@ -80,18 +81,17 @@ public class GameManager {
             }
             gameSession = new GameSession(row, col, true, creatures, equipments, turn);
             return true; // Retorna true se a leitura for bem-sucedida
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             return false; // Retorna false se ocorrer algum erro
         }
     }
 
     public int[] getWorldSize() {
-        return new int[2];
+        return gameSession.getBoardSize();
     }
 
     public int getInitialTeamId() {
-        return 0;
+        return gameSession.getTurn();
     }
 
     public int getCurrentTeamId() {

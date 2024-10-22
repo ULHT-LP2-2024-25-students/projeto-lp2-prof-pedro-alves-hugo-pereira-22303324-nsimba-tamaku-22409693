@@ -3,28 +3,20 @@ package pt.ulusofona.lp2.thenightofthelivingdeisi;
 import java.util.ArrayList;
 
 public class GameSession {
-    private String[][] grid; // Decidi criar uma matrix de Strings porque não posso criar tabuleiro que seja ao mesmo tempo Creature e Equipment
     private ArrayList<Creature> creatures;
     private ArrayList<Equipment> equipments;
-    int rows;
-    int cols;
+    private Board board;
     int turnCounter;
     int turn;
     boolean isDay;
 
     public GameSession(int rows, int cols, boolean isDay, ArrayList<Creature> creatures, ArrayList<Equipment> equipments, int turn) {
-        this.rows = rows;
-        this.cols = cols;
         this.isDay = isDay;
         this.creatures = creatures;
         this.equipments = equipments;
         this.turn = turn;
         this.turnCounter = 0;
-        grid = new String[rows][cols];
-    }
-
-    public String[][] getGrid() {
-        return grid;
+        board = new Board(rows, cols);
     }
 
     public ArrayList<Creature> getCreatures() {
@@ -33,14 +25,6 @@ public class GameSession {
 
     public ArrayList<Equipment> getEquipments() {
         return equipments;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public int getCols() {
-        return cols;
     }
 
     public int getTurnCounter() {
@@ -61,6 +45,10 @@ public class GameSession {
             turnCounter = 0;
             turn = turn == 1 ? 0 : turn;
         }
+    }
+
+    public int[] getBoardSize() {
+        return new int[]{board.getRows(), board.getCols()};
     }
 
 }

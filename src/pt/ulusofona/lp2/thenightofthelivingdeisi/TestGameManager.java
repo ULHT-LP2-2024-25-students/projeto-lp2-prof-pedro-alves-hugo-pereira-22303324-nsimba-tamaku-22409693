@@ -11,12 +11,19 @@ public class TestGameManager {
 
     @Test
     public void deveLerComSucessoUmFicheiro5X5() {
-        File file = new File("./test-files/5x6.txt");
+        File file = new File("./test-files/5x5.txt");
         Assertions.assertTrue(file.exists());
         GameManager gameManager = new GameManager();
-        gameManager.loadGame(file);
+        boolean carregou = gameManager.loadGame(file);
+        Assertions.assertTrue(carregou);
+    }
 
-
-
+    @Test
+    public void deveLerSemSucessoUmFicheiro5X5() {
+        File file = new File("./test-files/5x5_com_erro.txt");
+        Assertions.assertTrue(file.exists());
+        GameManager gameManager = new GameManager();
+        boolean carregou = gameManager.loadGame(file);
+        Assertions.assertFalse(carregou);
     }
 }
