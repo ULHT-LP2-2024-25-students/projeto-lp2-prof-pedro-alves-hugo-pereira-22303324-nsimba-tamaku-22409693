@@ -16,6 +16,7 @@ public class Creature {
         this.type = type;
         this.coord = new Coord(row, col);
         this.image = image;
+        equipments = new ArrayList<>();
     }
 
     public String getName() {

@@ -28,14 +28,14 @@ public class Board {
 
     public void assemblePieces() {
         for (Creature creature : creatures) {
-            if (positionOcupiedByAny(creature.getCoord())) { //Verifica se a coordenada esta ocupada
+            if (!positionIsEmpty(creature.getCoord())) { //Verifica se a coordenada esta vazia
                 System.out.println("Posicao ja ocupada");
                 continue;
             }
             placePiece(creature.getCoord(), creature.getCreatureInfoAsString());
         }
         for (Equipment equipment : equipments) {
-            if (positionOcupiedByAny(equipment.getCoord())) {
+            if (!positionIsEmpty(equipment.getCoord())) {
                 System.out.println("Posicao ja ocupada");
                 continue;
             }
@@ -104,10 +104,6 @@ public class Board {
             return false;
         }
         return equipment.getType() == equipmentType;
-    }
-
-    private boolean positionOcupiedByAny(Coord coord) {
-        return false;
     }
 
     private boolean positionIsEmpty(Coord coord) {
