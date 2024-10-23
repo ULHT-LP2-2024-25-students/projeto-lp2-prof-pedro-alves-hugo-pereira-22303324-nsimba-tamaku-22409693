@@ -2,16 +2,14 @@ package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
 public class Equipment {
     private final int id;
-    private TypeEquipment type;
-    private int row;
-    private int col;
+    private final EquipmentType type;
+    private Coord coord;
     private String image;
 
-    public Equipment(int id, TypeEquipment type, int row, int col, String image) {
+    public Equipment(int id, EquipmentType type, int row, int col, String image) {
         this.id = id;
         this.type = type;
-        this.row = row;
-        this.col = col;
+        this.coord = new Coord(row, col);
         this.image = image;
     }
 
@@ -19,24 +17,20 @@ public class Equipment {
         return id;
     }
 
-    public TypeEquipment getType() {
+    public EquipmentType getType() {
         return type;
     }
 
     public String getTypeEquipmentAsString() {
-        return type == TypeEquipment.ESPADA ? "Espada Samurai" : "Escudo de Madeira";
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
+        return type == EquipmentType.ESPADA ? "Espada Samurai" : "Escudo de Madeira";
     }
 
     public String getImage() {
         return image;
+    }
+
+    public Coord getCoord() {
+        return coord;
     }
 
     public void setImage(String image) {
@@ -44,22 +38,21 @@ public class Equipment {
     }
 
     public void changePosition(int row, int col) {
-        this.row = row;
-        this.col = col;
+        coord = new Coord(row, col);
     }
 
     public String[] getEquipmentInfo() {
         String[] info = new String[5];
         info[0] = Integer.toString(id);
         info[1] = type.toString();
-        info[2] = Integer.toString(row);
-        info[3] = Integer.toString(col);
+        info[2] = Integer.toString(coord.getX());
+        info[3] = Integer.toString(coord.getY());
         info[4] = image;
         return info;
     }
 
     public String getEquipmentInfoAsString() {
         String typeEquipment = getTypeEquipmentAsString();
-        return String.format("-%d | %s @(%d,%d)", id, typeEquipment, row, col);
+        return String.format("-%d | %s @(%d,%d)", id, typeEquipment, coord.getX(), coord.getY());
     }
 }

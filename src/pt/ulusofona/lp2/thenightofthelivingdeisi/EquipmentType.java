@@ -1,6 +1,6 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
-public enum TypeEquipment {
+public enum EquipmentType {
     ESPADA,
     ESCUDO
 }

@@ -5,14 +5,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Objects;
 
 public class GameManager {
     GameSession gameSession;
+
     public GameManager() {
+        gameSession = new GameSession();
     }
 
     private int[] getDimentionFromFileLine(String line) {
@@ -23,21 +23,21 @@ public class GameManager {
     private Creature getCreatureFromFileLine(String line) {
         String[] parts = line.split(":");
         int id = Integer.parseInt(parts[0].trim());
-        TypeCreature typeCreature = Objects.equals(parts[1].trim(), "1") ? TypeCreature.HUMANO : TypeCreature.ZOMBIE;
+        CreatureType creatureType = Objects.equals(parts[1].trim(), "1") ? CreatureType.HUMANO : CreatureType.ZOMBIE;
         String name = parts[2].trim();
         int col = Integer.parseInt(parts[3].trim()); //Sim, as colunas sao lidas primeiro
         int row = Integer.parseInt(parts[4].trim());
-        return new Creature(name, id, typeCreature, row, col, null);
+        return new Creature(name, id, creatureType, row, col, null);
     }
 
     private Equipment getEquipmentFromFileLine(String line) {
         String newLine = line.substring(1); //Saltar o primeiro caractere que e' um "-"
         String[] parts = newLine.split(":");
         int id = Integer.parseInt(parts[0].trim());
-        TypeEquipment typeEquipment = Objects.equals(parts[1].trim(), "1") ? TypeEquipment.ESPADA : TypeEquipment.ESCUDO;
+        EquipmentType equipmentType = Objects.equals(parts[1].trim(), "1") ? EquipmentType.ESPADA : EquipmentType.ESCUDO;
         int col = Integer.parseInt(parts[2].trim());
         int row = Integer.parseInt(parts[3].trim());
-        return new Equipment(id, typeEquipment, row, col, null);
+        return new Equipment(id, equipmentType, row, col, null);
     }
 
     public boolean loadGame(File file) {
@@ -47,7 +47,6 @@ public class GameManager {
         int nCreatures, nEquipments;
         ArrayList<Creature> creatures = new ArrayList<>();
         ArrayList<Equipment> equipments = new ArrayList<>();
-
         /* leitura do ficheiro */
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
@@ -80,6 +79,7 @@ public class GameManager {
                 equipments.add(getEquipmentFromFileLine(line));
             }
             gameSession = new GameSession(row, col, true, creatures, equipments, turn);
+            gameSession.assembleBoard();
             return true; // Retorna true se a leitura for bem-sucedida
         } catch (Exception e) {
             return false; // Retorna false se ocorrer algum erro
@@ -91,19 +91,19 @@ public class GameManager {
     }
 
     public int getInitialTeamId() {
-        return gameSession.getTurn();
+        return gameSession.getShift();
     }
 
     public int getCurrentTeamId() {
-        return 0;
+        return gameSession.getShift();
     }
 
     public boolean isDay() {
-        return false;
+        return gameSession.isDay();
     }
 
     public String getSquareInfo(int x, int y) {
-        return "";
+        return gameSession.getSquareInfo(x, y);
     }
 
     public String[] getCreatureInfo(int id) {

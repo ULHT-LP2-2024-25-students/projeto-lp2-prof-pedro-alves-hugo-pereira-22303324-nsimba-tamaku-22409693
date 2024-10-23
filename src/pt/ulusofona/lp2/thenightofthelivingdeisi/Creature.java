@@ -5,18 +5,16 @@ import java.util.ArrayList;
 public class Creature {
     private String name;
     private int id;
-    private TypeCreature typeCreature;
-    private int row;
-    private int col;
+    private CreatureType type;
+    private Coord coord;
     private ArrayList<Equipment> equipments;
     private String image;
 
-    public Creature(String name, int id, TypeCreature typeCreature, int row, int col, String image) {
+    public Creature(String name, int id, CreatureType type, int row, int col, String image) {
         this.name = name;
         this.id = id;
-        this.typeCreature = typeCreature;
-        this.row = row;
-        this.col = col;
+        this.type = type;
+        this.coord = new Coord(row, col);
         this.image = image;
     }
 
@@ -28,24 +26,16 @@ public class Creature {
         return id;
     }
 
-    public TypeCreature getTypeCreature() {
-        return typeCreature;
+    public CreatureType getType() {
+        return type;
     }
 
     public String getCreatureTypeAsString() {
-        return typeCreature == TypeCreature.HUMANO ? "Humano" : "Zombie";
+        return type == CreatureType.HUMANO ? "Humano" : "Zombie";
     }
 
     public String getCreatureSign() {
-        return typeCreature == TypeCreature.HUMANO ? "+" : "-";
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
+        return type == CreatureType.HUMANO ? "+" : "-";
     }
 
     public String getImage() {
@@ -57,8 +47,7 @@ public class Creature {
     }
 
     public void changePosition(int row, int col) {
-        this.row = row;
-        this.col = col;
+        this.coord = new Coord(row, col);
     }
 
     public String[] getCreatureInfo() {
@@ -67,8 +56,8 @@ public class Creature {
         String typeAsString = getCreatureTypeAsString().charAt(0) + ""; // (+ "") para converter char para String
         info[1] = typeAsString;
         info[2] = getName();
-        info[3] = String.valueOf(getRow());
-        info[4] = String.valueOf(getCol());
+        info[3] = String.valueOf(coord.getX());
+        info[4] = String.valueOf(coord.getY());
         info[5] = String.valueOf(getImage());
         return info;
     }
@@ -80,6 +69,10 @@ public class Creature {
                 getName(),
                 getCreatureSign(),
                 equipments.size(),
-                row, col);
+                coord.getX(), coord.getY());
+    }
+
+    public Coord getCoord() {
+        return coord;
     }
 }
