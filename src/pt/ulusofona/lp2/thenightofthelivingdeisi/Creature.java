@@ -64,7 +64,7 @@ public class Creature {
     }
 
     public String getInfoAsString() {
-        return String.format("%s | %s | %s | %s%d@(%d,%d)",
+        return String.format("%s | %s | %s | %s%d @ (%d, %d)",
                 getId(),
                 getCreatureTypeAsString(),
                 getName(),

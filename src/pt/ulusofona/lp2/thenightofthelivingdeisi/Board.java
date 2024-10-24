@@ -153,7 +153,7 @@ public class Board {
             if (equipment == null) {
                 return null;
             }
-            return String.format("E:%d", equipment.getId());
+            return String.format("E:-%d", equipment.getId());
         }
         return "";
     }
