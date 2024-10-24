@@ -32,14 +32,14 @@ public class Board {
                 System.out.println("Posicao ja ocupada");
                 continue;
             }
-            placePiece(creature.getCoord(), creature.getCreatureInfoAsString());
+            placePiece(creature.getCoord(), creature.getInfoAsString());
         }
         for (Equipment equipment : equipments) {
             if (!positionIsEmpty(equipment.getCoord())) {
                 System.out.println("Posicao ja ocupada");
                 continue;
             }
-            placePiece(equipment.getCoord(), equipment.getEquipmentInfoAsString());
+            placePiece(equipment.getCoord(), equipment.getInfoAsString());
         }
     }
 
@@ -112,7 +112,7 @@ public class Board {
 
     private Creature getCreatureByInfoString(String creatureInfo) {
         for (Creature creature : creatures) {
-            if (creature.getCreatureInfoAsString().equals(creatureInfo)) {
+            if (creature.getInfoAsString().equals(creatureInfo)) {
                 return creature;
             }
         }
@@ -121,7 +121,7 @@ public class Board {
 
     private Equipment getEquipmentByInfoString(String equipmentInfo) {
         for (Equipment equipment : equipments) {
-            if (equipment.getEquipmentInfoAsString().equals(equipmentInfo)) {
+            if (equipment.getInfoAsString().equals(equipmentInfo)) {
                 return equipment;
             }
         }
@@ -156,5 +156,23 @@ public class Board {
             return String.format("E:%d", equipment.getId());
         }
         return "";
+    }
+
+    public Creature getCreatureByID(int creatureID) {
+        for (Creature creature : creatures) {
+            if (creature.getId() == creatureID) {
+                return creature;
+            }
+        }
+        return null;
+    }
+
+    public Equipment getEquipmentByID(int equipmentID) {
+        for (Equipment equipment : equipments) {
+            if (equipment.getId() == equipmentID) {
+                return equipment;
+            }
+        }
+        return null;
     }
 }

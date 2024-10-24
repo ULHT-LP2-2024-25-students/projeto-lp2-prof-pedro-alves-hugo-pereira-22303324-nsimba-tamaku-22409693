@@ -1,7 +1,7 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Objects;
 
 public class GameSession {
     private Board board;
@@ -53,5 +53,29 @@ public class GameSession {
 
     public String getSquareInfo(int row, int col) {
         return board.getSquareInfo(new Coord(row, col));
+    }
+
+    public String[] getCreatureInfo(int id) {
+        String[] creatureInfo = board.getCreatureByID(id).getInfo();
+        if (Objects.equals(creatureInfo[5], "null")) {
+            creatureInfo[5] = null;
+        }
+        return creatureInfo;
+    }
+
+    public String getCreatureInfoAsString(int id) {
+        return board.getCreatureByID(id).getInfoAsString();
+    }
+
+    public String[] getEquipmentInfo(int id) {
+        String[] equipmentInfo = board.getEquipmentByID(id).getInfo();
+        if (Objects.equals(equipmentInfo[4], "null")) {
+            equipmentInfo[5] = null;
+        }
+        return equipmentInfo;
+    }
+
+    public String getEquipmentInfoAsString(int id) {
+        return board.getEquipmentByID(id).getInfoAsString();
     }
 }

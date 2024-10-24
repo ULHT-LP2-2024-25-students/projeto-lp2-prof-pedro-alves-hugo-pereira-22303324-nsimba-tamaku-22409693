@@ -103,23 +103,23 @@ public class GameManager {
     }
 
     public String getSquareInfo(int x, int y) {
-        return gameSession.getSquareInfo(x, y);
+        return gameSession.getSquareInfo(y, x); //Os elementos estao guardados em coluna-linha
     }
 
     public String[] getCreatureInfo(int id) {
-        return new String[0];
+        return gameSession.getCreatureInfo(id);
     }
 
     public String getCreatureInfoAsString(int id) {
-        return "";
+        return gameSession.getCreatureInfoAsString(id);
     }
 
     public String[] getEquipmentInfo(int id) {
-        return new String[0];
+        return gameSession.getEquipmentInfo(id);
     }
 
     public String getEquipmentInfoAsString(int id) {
-        return "";
+        return gameSession.getEquipmentInfoAsString(id);
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {

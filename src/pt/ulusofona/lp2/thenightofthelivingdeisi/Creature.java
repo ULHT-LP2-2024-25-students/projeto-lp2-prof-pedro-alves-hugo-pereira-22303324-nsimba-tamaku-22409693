@@ -51,10 +51,10 @@ public class Creature {
         this.coord = new Coord(row, col);
     }
 
-    public String[] getCreatureInfo() {
+    public String[] getInfo() {
         String[] info = new String[6];
         info[0] = String.valueOf(getId());
-        String typeAsString = getCreatureTypeAsString().charAt(0) + ""; // (+ "") para converter char para String
+        String typeAsString = getCreatureTypeAsString();
         info[1] = typeAsString;
         info[2] = getName();
         info[3] = String.valueOf(coord.getX());
@@ -63,7 +63,7 @@ public class Creature {
         return info;
     }
 
-    public String getCreatureInfoAsString() {
+    public String getInfoAsString() {
         return String.format("%s | %s | %s | %s%d@(%d,%d)",
                 getId(),
                 getCreatureTypeAsString(),

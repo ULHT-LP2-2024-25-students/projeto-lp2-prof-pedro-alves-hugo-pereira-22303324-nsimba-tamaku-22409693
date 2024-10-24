@@ -41,7 +41,7 @@ public class Equipment {
         coord = new Coord(row, col);
     }
 
-    public String[] getEquipmentInfo() {
+    public String[] getInfo() {
         String[] info = new String[5];
         info[0] = Integer.toString(id);
         info[1] = type.toString();
@@ -51,7 +51,7 @@ public class Equipment {
         return info;
     }
 
-    public String getEquipmentInfoAsString() {
+    public String getInfoAsString() {
         String typeEquipment = getTypeEquipmentAsString();
         return String.format("-%d | %s @(%d,%d)", id, typeEquipment, coord.getX(), coord.getY());
     }
