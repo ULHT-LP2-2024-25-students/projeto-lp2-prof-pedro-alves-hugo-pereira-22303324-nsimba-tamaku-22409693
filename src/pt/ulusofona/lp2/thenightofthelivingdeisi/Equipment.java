@@ -21,11 +21,11 @@ public class Equipment {
         return type;
     }
 
-    public String getTypeAsString() {
+    public String getAssocietedTypeName() {
         return type == EquipmentType.ESPADA ? "Espada samurai" : "Escudo de madeira";
     }
 
-    public int getTypeAsNumber() {
+    public int getAssocietedTypeNumber() {
         return type == EquipmentType.ESPADA ? 1 : 0;
     }
 
@@ -48,7 +48,7 @@ public class Equipment {
     public String[] getInfo() {
         String[] info = new String[5];
         info[0] = Integer.toString(id);
-        info[1] = Integer.toString(getTypeAsNumber());
+        info[1] = Integer.toString(getAssocietedTypeNumber());
         info[2] = Integer.toString(coord.getY());
         info[3] = Integer.toString(coord.getX());
         info[4] = image;
@@ -56,7 +56,7 @@ public class Equipment {
     }
 
     public String getInfoAsString() {
-        String typeEquipment = getTypeAsString();
+        String typeEquipment = getAssocietedTypeName();
         return String.format("%d | %s @ (%d,%d)", id, typeEquipment, coord.getY(), coord.getX());
     }
 }

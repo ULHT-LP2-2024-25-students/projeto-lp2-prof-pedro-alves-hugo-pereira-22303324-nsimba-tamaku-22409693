@@ -28,18 +28,15 @@ public class Board {
 
     public void assemblePieces() {
         for (Creature creature : creatures) {
-            if (!positionIsEmpty(creature.getCoord())) { //Verifica se a coordenada esta vazia
-                System.out.println("Posicao ja ocupada");
-                continue;
+            if (positionIsEmpty(creature.getCoord())) { //Verifica se a coordenada esta vazia
+                placePiece(creature.getCoord(), creature.getInfoAsString());
             }
-            placePiece(creature.getCoord(), creature.getInfoAsString());
         }
+
         for (Equipment equipment : equipments) {
-            if (!positionIsEmpty(equipment.getCoord())) {
-                System.out.println("Posicao ja ocupada");
-                continue;
+            if (positionIsEmpty(equipment.getCoord())) {
+                placePiece(equipment.getCoord(), equipment.getInfoAsString());
             }
-            placePiece(equipment.getCoord(), equipment.getInfoAsString());
         }
     }
 
@@ -47,7 +44,7 @@ public class Board {
         grid[coord.getX()][coord.getY()] = pieceInformation;
     }
 
-    public HashMap<CreatureType, ArrayList<Creature>> creaturesByType() { //
+    public HashMap<CreatureType, ArrayList<Creature>> getCreaturesByType() { //
         HashMap<CreatureType, ArrayList<Creature>> creaturesByType = new HashMap<>();
         for (Creature creature : creatures) {
             if (creaturesByType.containsKey(creature.getType())) {
@@ -60,11 +57,11 @@ public class Board {
     }
 
     public ArrayList<Creature> getHumans() {
-        return creaturesByType().get(CreatureType.HUMANO);
+        return getCreaturesByType().get(CreatureType.HUMANO);
     }
 
     public ArrayList<Creature> getZombies() {
-        return creaturesByType().get(CreatureType.ZOMBIE);
+        return getCreaturesByType().get(CreatureType.ZOMBIE);
     }
 
     private boolean positionOcupiedByCreature(Coord coord) {
