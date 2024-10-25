@@ -70,7 +70,7 @@ public class Creature {
                 getName(),
                 getCreatureSign(),
                 equipments.size(),
-                coord.getX(), coord.getY());
+                coord.getY(),coord.getX());
     }
 
     public Coord getCoord() {

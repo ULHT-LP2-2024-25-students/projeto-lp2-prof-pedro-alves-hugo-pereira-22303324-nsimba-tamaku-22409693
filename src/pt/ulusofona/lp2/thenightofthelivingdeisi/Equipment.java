@@ -53,6 +53,6 @@ public class Equipment {
 
     public String getInfoAsString() {
         String typeEquipment = getTypeEquipmentAsString();
-        return String.format("-%d | %s @(%d,%d)", id, typeEquipment, coord.getX(), coord.getY());
+        return String.format("-%d | %s @(%d,%d)", id, typeEquipment, coord.getY(), coord.getX());
     }
 }
