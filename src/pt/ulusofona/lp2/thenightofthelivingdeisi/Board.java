@@ -168,8 +168,12 @@ public class Board {
     }
 
     public Equipment getEquipmentByID(int equipmentID) {
+        int finalID = equipmentID;
+        if (equipmentID < 0) {
+            finalID = equipmentID * (-1);
+        }
         for (Equipment equipment : equipments) {
-            if (equipment.getId() == equipmentID) {
+            if (equipment.getId() == finalID) {
                 return equipment;
             }
         }
