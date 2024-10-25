@@ -53,8 +53,8 @@ public class Creature {
 
     public String[] getInfo() {
         String[] info = new String[6];
-        info[0] = String.valueOf(getId());
         String typeAsString = getCreatureTypeAsString();
+        info[0] = String.valueOf(getId());
         info[1] = typeAsString;
         info[2] = getName();
         info[3] = String.valueOf(coord.getY());
