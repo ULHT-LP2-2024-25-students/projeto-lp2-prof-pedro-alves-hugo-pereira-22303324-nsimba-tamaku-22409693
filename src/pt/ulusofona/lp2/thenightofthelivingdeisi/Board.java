@@ -130,12 +130,12 @@ public class Board {
 
     public String getSquareInfo(Coord coord) {
         if (positionIsEmpty(coord)) {
-            return null;
+            return "";
         }
         if (positionOcupiedByCreature(coord, CreatureType.HUMANO)) {
             Creature creature = getCreatureByInfoString(grid[coord.getX()][coord.getY()]);
             if (creature == null) {
-                return null;
+                return "";
             }
             return String.format("H:%d", creature.getId());
         }
