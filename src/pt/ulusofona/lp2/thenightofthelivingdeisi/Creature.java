@@ -57,8 +57,8 @@ public class Creature {
         String typeAsString = getCreatureTypeAsString();
         info[1] = typeAsString;
         info[2] = getName();
-        info[3] = String.valueOf(coord.getX());
-        info[4] = String.valueOf(coord.getY());
+        info[3] = String.valueOf(coord.getY());
+        info[4] = String.valueOf(coord.getX());
         info[5] = String.valueOf(getImage());
         return info;
     }

@@ -45,8 +45,8 @@ public class Equipment {
         String[] info = new String[5];
         info[0] = Integer.toString(id);
         info[1] = type.toString();
-        info[2] = Integer.toString(coord.getX());
-        info[3] = Integer.toString(coord.getY());
+        info[2] = Integer.toString(coord.getY());
+        info[3] = Integer.toString(coord.getX());
         info[4] = image;
         return info;
     }
