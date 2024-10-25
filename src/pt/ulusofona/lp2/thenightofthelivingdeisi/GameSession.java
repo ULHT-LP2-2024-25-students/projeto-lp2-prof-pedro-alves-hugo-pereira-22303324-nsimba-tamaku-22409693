@@ -68,11 +68,7 @@ public class GameSession {
     }
 
     public String[] getEquipmentInfo(int id) {
-        int finalId = id;
-        if (id < 0) {
-            finalId = id * -1;
-        }
-        String[] equipmentInfo = board.getEquipmentByID(finalId).getInfo();
+        String[] equipmentInfo = board.getEquipmentByID(id).getInfo();
         if (Objects.equals(equipmentInfo[4], "null")) {
             equipmentInfo[5] = null;
         }

@@ -22,7 +22,7 @@ public class Equipment {
     }
 
     public String getTypeEquipmentAsString() {
-        return type == EquipmentType.ESPADA ? "Espada Samurai" : "Escudo de Madeira";
+        return type == EquipmentType.ESPADA ? "Espada samurai" : "Escudo de madeira";
     }
 
     public String getImage() {
@@ -53,6 +53,6 @@ public class Equipment {
 
     public String getInfoAsString() {
         String typeEquipment = getTypeEquipmentAsString();
-        return String.format("-%d | %s @(%d,%d)", id, typeEquipment, coord.getY(), coord.getX());
+        return String.format("%d | %s @(%d,%d)", id, typeEquipment, coord.getY(), coord.getX());
     }
 }

@@ -153,7 +153,7 @@ public class Board {
             if (equipment == null) {
                 return null;
             }
-            return String.format("E:-%d", equipment.getId());
+            return String.format("E:%d", equipment.getId());
         }
         return "";
     }
@@ -168,12 +168,8 @@ public class Board {
     }
 
     public Equipment getEquipmentByID(int equipmentID) {
-        int finalID = equipmentID;
-        if (equipmentID < 0) {
-            finalID = equipmentID * (-1);
-        }
         for (Equipment equipment : equipments) {
-            if (equipment.getId() == finalID) {
+            if (equipment.getId() == equipmentID) {
                 return equipment;
             }
         }

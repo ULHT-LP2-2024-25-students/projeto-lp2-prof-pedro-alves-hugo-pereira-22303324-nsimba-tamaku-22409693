@@ -33,7 +33,7 @@ public class GameManager {
     private Equipment getEquipmentFromFileLine(String line) {
         String newLine = line.substring(1); //Saltar o primeiro caractere que e' um "-"
         String[] parts = newLine.split(":");
-        int id = Integer.parseInt(parts[0].trim());
+        int id = Integer.parseInt(parts[0].trim()) * (-1);
         EquipmentType equipmentType = Objects.equals(parts[1].trim(), "1") ? EquipmentType.ESPADA : EquipmentType.ESCUDO;
         int col = Integer.parseInt(parts[2].trim());
         int row = Integer.parseInt(parts[3].trim());
