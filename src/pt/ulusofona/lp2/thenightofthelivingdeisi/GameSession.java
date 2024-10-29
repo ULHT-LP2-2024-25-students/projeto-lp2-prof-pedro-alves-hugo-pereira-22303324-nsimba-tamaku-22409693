@@ -80,6 +80,10 @@ public class GameSession {
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
-        return board.moveElement(xO, yO, xD, yD);
+        if (board.moveElement(xO, yO, xD, yD, shift)) {
+            changeTurn();
+            return true;
+        }
+        return false;
     }
 }

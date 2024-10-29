@@ -191,7 +191,7 @@ public class Board {
                 (horizontalDistance == 0 && verticalDistance == 1)); // Pode andar na vertical uma casa
     }
 
-    public boolean moveElement(int xO, int yO, int xD, int yD) {
+    public boolean moveElement(int xO, int yO, int xD, int yD, int shift) {
         Coord origin = new Coord(xO, yO);
         Coord dest = new Coord(xD, yD);
 
@@ -199,8 +199,16 @@ public class Board {
             return false;
         }
 
-        if (!positionOcupiedByCreature(origin, CreatureType.HUMANO)) {
-            return false;
+        if (shift == 1) {
+            if (!positionOcupiedByCreature(origin, CreatureType.HUMANO)) {
+                return false;
+            }
+        }
+
+        if (shift == 0) {
+            if (!positionOcupiedByCreature(origin, CreatureType.ZOMBIE)) {
+                return false;
+            }
         }
 
         if (!positionIsEmpty(dest)) {
