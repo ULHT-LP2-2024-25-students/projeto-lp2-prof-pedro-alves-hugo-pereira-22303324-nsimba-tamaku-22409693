@@ -131,7 +131,7 @@ public class GameManager {
     }
 
     public boolean gameIsOver() {
-        return false;
+        return gameSession.gameIsOver();
     }
 
     public ArrayList<String> getSurvivors() {

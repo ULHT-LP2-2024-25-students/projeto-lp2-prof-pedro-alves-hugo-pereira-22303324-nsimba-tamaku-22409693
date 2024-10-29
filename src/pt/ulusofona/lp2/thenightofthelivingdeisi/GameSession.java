@@ -86,4 +86,8 @@ public class GameSession {
         }
         return false;
     }
+
+    public boolean gameIsOver() {
+        return turnCounter == 24;
+    }
 }
