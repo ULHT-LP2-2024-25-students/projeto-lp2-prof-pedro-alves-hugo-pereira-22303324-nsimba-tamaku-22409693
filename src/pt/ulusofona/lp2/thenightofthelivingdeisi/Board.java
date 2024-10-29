@@ -172,4 +172,22 @@ public class Board {
         }
         return null;
     }
+
+
+    /* Validacoes */
+
+    public boolean coordIsOutOfBounds(Coord coord) {
+        return coord.getX() >= rows || coord.getY() >= cols;
+    }
+
+    public boolean isLegalMove(Coord origin, Coord destination) {
+        if (coordIsOutOfBounds(origin) || coordIsOutOfBounds(destination)) {
+            return false;
+        }
+        int horizontalDistance = Math.abs(destination.getY() - origin.getY());
+        int verticalDistance  = Math.abs(destination.getX() - origin.getX());
+
+        return ((verticalDistance == 0 && horizontalDistance == 1) || // Pode andar na horizontal uma casa
+                (horizontalDistance == 0 && verticalDistance == 1)); // Pode andar na vertical uma casa
+    }
 }

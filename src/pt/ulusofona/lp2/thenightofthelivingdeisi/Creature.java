@@ -7,8 +7,9 @@ public class Creature {
     private int id;
     private CreatureType type;
     private Coord coord;
-    private ArrayList<Equipment> equipments;
+    private Equipment equipment;
     private String image;
+    private int equipmentsDestroyed;
 
     public Creature(String name, int id, CreatureType type, int row, int col, String image) {
         this.name = name;
@@ -16,7 +17,7 @@ public class Creature {
         this.type = type;
         this.coord = new Coord(row, col);
         this.image = image;
-        equipments = new ArrayList<>();
+        this.equipmentsDestroyed = 0;
     }
 
     public String getName() {
@@ -39,12 +40,16 @@ public class Creature {
         return type == CreatureType.HUMANO ? "+" : "-";
     }
 
+    public boolean isHuman() {
+        return type == CreatureType.HUMANO;
+    }
+
     public String getImage() {
         return image;
     }
 
-    public ArrayList<Equipment> getEquipments() {
-        return equipments;
+    public Equipment getEquipment() {
+        return equipment;
     }
 
     public void changePosition(int row, int col) {
@@ -63,13 +68,15 @@ public class Creature {
         return info;
     }
 
+
     public String getInfoAsString() {
+        int equipmentCounter = equipment == null ? 0 : 1;
         return String.format("%s | %s | %s | %s%d @ (%d, %d)",
                 getId(),
                 getCreatureTypeAsString(),
                 getName(),
                 getCreatureSign(),
-                equipments.size(),
+                isHuman() ? equipmentCounter : equipmentsDestroyed,
                 coord.getY(),coord.getX());
     }
 

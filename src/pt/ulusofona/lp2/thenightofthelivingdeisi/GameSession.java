@@ -37,7 +37,7 @@ public class GameSession {
 
     public void changeTurn() {
         turnCounter++;
-        shift = shift == 1 ? 0 : shift;
+        shift = shift == 1 ? 0 : 1;
         if (turnCounter % 2 == 0) { //A cada duas jogas trocar o turno
             isDay = !isDay;
         }
