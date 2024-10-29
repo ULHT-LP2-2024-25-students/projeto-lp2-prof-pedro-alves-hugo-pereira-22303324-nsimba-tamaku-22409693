@@ -190,4 +190,33 @@ public class Board {
         return ((verticalDistance == 0 && horizontalDistance == 1) || // Pode andar na horizontal uma casa
                 (horizontalDistance == 0 && verticalDistance == 1)); // Pode andar na vertical uma casa
     }
+
+    public boolean moveElement(int xO, int yO, int xD, int yD) {
+        Coord origin = new Coord(xO, yO);
+        Coord dest = new Coord(xD, yD);
+
+        if (!isLegalMove(origin, dest)) {
+            return false;
+        }
+
+        if (!positionOcupiedByCreature(origin, CreatureType.HUMANO)) {
+            return false;
+        }
+
+        if (!positionIsEmpty(dest)) {
+            return false;
+        }
+
+        Creature humanToBeMoved = getCreatureByInfoString(grid[xO][yO]);
+        grid[xO][yO] = null;
+
+        if (humanToBeMoved == null) {
+            return false;
+        }
+
+        humanToBeMoved.changePosition(xD, yD);
+        placePiece(dest, humanToBeMoved.getInfoAsString());
+
+        return true;
+    }
 }

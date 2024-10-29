@@ -127,7 +127,7 @@ public class GameManager {
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
-        return false;
+        return gameSession.move(yO, xO, yD, xD); //Os elementos estao guardados em coluna-linha
     }
 
     public boolean gameIsOver() {

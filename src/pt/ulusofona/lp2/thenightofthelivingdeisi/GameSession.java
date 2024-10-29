@@ -78,4 +78,8 @@ public class GameSession {
     public String getEquipmentInfoAsString(int id) {
         return board.getEquipmentByID(id).getInfoAsString();
     }
+
+    public boolean move(int xO, int yO, int xD, int yD) {
+        return board.moveElement(xO, yO, xD, yD);
+    }
 }
