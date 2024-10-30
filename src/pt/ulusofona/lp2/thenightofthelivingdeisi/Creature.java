@@ -89,6 +89,7 @@ public class Creature {
 
     public boolean equip(Equipment equipment) {
         if (type == CreatureType.HUMANO && this.equipment == null) {
+            equipment.setAsCaptured();
             this.equipment = equipment;
             return true;
         }

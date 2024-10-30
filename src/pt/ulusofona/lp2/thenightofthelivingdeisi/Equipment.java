@@ -5,6 +5,7 @@ public class Equipment {
     private final EquipmentType type;
     private Coord coord;
     private String image;
+    private boolean isCaptured = false;
 
     public Equipment(int id, EquipmentType type, int row, int col, String image) {
         this.id = id;
@@ -53,6 +54,14 @@ public class Equipment {
         info[3] = Integer.toString(coord.getX());
         info[4] = image;
         return info;
+    }
+
+    public void setAsCaptured() {
+        this.isCaptured = true;
+    }
+
+    public boolean isCaptured() {
+        return isCaptured;
     }
 
     public String getInfoAsString() {
