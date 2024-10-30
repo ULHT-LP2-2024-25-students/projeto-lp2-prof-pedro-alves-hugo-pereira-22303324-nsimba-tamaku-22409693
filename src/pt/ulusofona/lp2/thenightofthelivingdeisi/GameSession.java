@@ -85,6 +85,14 @@ public class GameSession {
     }
 
     public String getEquipmentInfoAsString(int id) {
+        for (Creature human : board.getHumans()) { //getEquipmentInfoAsString() deve retornar null para equipamentos capturados
+            if (!human.hasEquipment()) {
+                continue;
+            }
+            if(human.getEquipment().getId() == id) {
+                return null;
+            }
+        }
         return board.getEquipmentByID(id).getInfoAsString();
     }
 
