@@ -99,6 +99,9 @@ public class Creature {
         }
         return false;
     }
+    public void destroy(Equipment equipment) {
+        equipment.setAsDestroyed();
+    }
 
     public void incrementEquipmentsDestroyed() {
         equipmentsDestroyed++;

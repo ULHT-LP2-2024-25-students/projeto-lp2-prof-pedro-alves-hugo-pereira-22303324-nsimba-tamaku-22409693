@@ -6,6 +6,7 @@ public class Equipment {
     private Coord coord;
     private String image;
     private boolean isCaptured = false;
+    private boolean isDestroyed = false;
 
     public Equipment(int id, EquipmentType type, int row, int col, String image) {
         this.id = id;
@@ -60,9 +61,18 @@ public class Equipment {
         this.isCaptured = true;
     }
 
+    public void setAsDestroyed() {
+        this.isDestroyed = true;
+    }
+
     public boolean isCaptured() {
         return isCaptured;
     }
+
+    public boolean isDestroyed() {
+        return isCaptured;
+    }
+
 
     public String getInfoAsString() {
         String typeEquipment = getAssocietedTypeName();

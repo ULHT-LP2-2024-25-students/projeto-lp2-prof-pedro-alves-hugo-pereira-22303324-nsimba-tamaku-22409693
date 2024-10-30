@@ -87,7 +87,7 @@ public class GameSession {
     public String getEquipmentInfoAsString(int id) {
         Equipment equipment = board.getEquipmentByID(id);
 
-        return equipment.isCaptured() ? null : equipment.getInfoAsString();
+        return equipment.isCaptured() || equipment.isDestroyed() ? null : equipment.getInfoAsString();
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
