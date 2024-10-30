@@ -76,6 +76,14 @@ public class GameSession {
         return equipmentInfo;
     }
 
+    public boolean creatureHasEquipment(int id, int equipmentType) {
+        Creature creature = board.getCreatureByID(id);
+        if (!creature.hasEquipment()) {
+            return false;
+        }
+        return creature.getEquipment().getAssocietedTypeNumber() == equipmentType;
+    }
+
     public String getEquipmentInfoAsString(int id) {
         return board.getEquipmentByID(id).getInfoAsString();
     }

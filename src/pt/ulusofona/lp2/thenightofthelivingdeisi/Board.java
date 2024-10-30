@@ -185,7 +185,7 @@ public class Board {
             return false;
         }
         int horizontalDistance = Math.abs(destination.getY() - origin.getY());
-        int verticalDistance  = Math.abs(destination.getX() - origin.getX());
+        int verticalDistance = Math.abs(destination.getX() - origin.getX());
 
         return ((verticalDistance == 0 && horizontalDistance == 1) || // Pode andar na horizontal uma casa
                 (horizontalDistance == 0 && verticalDistance == 1)); // Pode andar na vertical uma casa
@@ -199,32 +199,39 @@ public class Board {
             return false;
         }
 
-        if (shift == 1) {
+        if (shift == 1) { //Vez do humano
             if (!positionOcupiedByCreature(origin, CreatureType.HUMANO)) {
                 return false;
             }
-        }
-
-        if (shift == 0) {
-            if (!positionOcupiedByCreature(origin, CreatureType.ZOMBIE)) {
+            Creature human = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
+            assert human != null; //Temos a certeza que nao é null mas verificamos na mesma
+            if ((human.hasEquipment() && positionOcupiedByEquipment(dest)) || positionOcupiedByCreature(dest)) {
                 return false;
             }
+            if (!human.hasEquipment() && positionOcupiedByEquipment(dest)) {
+                Equipment equipment = getEquipmentByInfoString(grid[dest.getX()][dest.getY()]);
+                assert equipment != null;
+                human.equip(equipment);
+            }
+            grid[xO][yO] = null;
+            human.changePosition(dest.getX(), dest.getY());
+            placePiece(dest, human.getInfoAsString());
+            return true;
         }
-
-        if (!positionIsEmpty(dest)) {
+        if (!positionOcupiedByCreature(origin, CreatureType.ZOMBIE)) {
             return false;
         }
-
-        Creature creatureToBeMoved = getCreatureByInfoString(grid[xO][yO]);
+        Creature zombie = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
+        assert zombie != null;
+        if (positionOcupiedByCreature(dest)) {
+            return false;
+        }
+        if (positionOcupiedByEquipment(dest)) {
+            zombie.incrementEquipmentsDestroyed();
+        }
         grid[xO][yO] = null;
-
-        if (creatureToBeMoved == null) {
-            return false;
-        }
-
-        creatureToBeMoved.changePosition(xD, yD);
-        placePiece(dest, creatureToBeMoved.getInfoAsString());
-
+        zombie.changePosition(dest.getX(), dest.getY());
+        placePiece(dest, zombie.getInfoAsString());
         return true;
     }
 }

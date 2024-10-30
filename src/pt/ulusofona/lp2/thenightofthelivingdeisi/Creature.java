@@ -54,6 +54,9 @@ public class Creature {
 
     public void changePosition(int row, int col) {
         this.coord = new Coord(row, col);
+        if (hasEquipment()) {
+            equipment.changePosition(row, col);
+        }
     }
 
     public String[] getInfo() {
@@ -94,5 +97,13 @@ public class Creature {
             return true;
         }
         return false;
+    }
+
+    public void incrementEquipmentsDestroyed() {
+        equipmentsDestroyed++;
+    }
+
+    public boolean hasEquipment() {
+        return equipment != null;
     }
 }

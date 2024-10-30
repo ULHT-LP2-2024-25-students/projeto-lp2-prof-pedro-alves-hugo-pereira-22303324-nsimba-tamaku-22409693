@@ -105,7 +105,7 @@ public class GameManager {
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {
-        return false;
+        return gameSession.creatureHasEquipment(creatureId, equipmentTypeId);
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
