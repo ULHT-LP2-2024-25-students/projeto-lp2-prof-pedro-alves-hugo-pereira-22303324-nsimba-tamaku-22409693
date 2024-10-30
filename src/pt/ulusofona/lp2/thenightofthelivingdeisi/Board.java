@@ -215,15 +215,15 @@ public class Board {
             return false;
         }
 
-        Creature humanToBeMoved = getCreatureByInfoString(grid[xO][yO]);
+        Creature creatureToBeMoved = getCreatureByInfoString(grid[xO][yO]);
         grid[xO][yO] = null;
 
-        if (humanToBeMoved == null) {
+        if (creatureToBeMoved == null) {
             return false;
         }
 
-        humanToBeMoved.changePosition(xD, yD);
-        placePiece(dest, humanToBeMoved.getInfoAsString());
+        creatureToBeMoved.changePosition(xD, yD);
+        placePiece(dest, creatureToBeMoved.getInfoAsString());
 
         return true;
     }

@@ -83,4 +83,16 @@ public class Creature {
     public Coord getCoord() {
         return coord;
     }
+
+    public boolean equip(Equipment equipment) {
+        if (type == CreatureType.HUMANO && this.equipment == null) {
+            this.equipment = equipment;
+            return true;
+        }
+        if (type == CreatureType.ZOMBIE) {
+            equipmentsDestroyed++;
+            return true;
+        }
+        return false;
+    }
 }
