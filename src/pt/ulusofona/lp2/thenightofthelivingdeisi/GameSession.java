@@ -105,6 +105,6 @@ public class GameSession {
     }
 
     public boolean gameIsOver() {
-        return turnCounter == 24;
+        return turnCounter == 12;
     }
 }
