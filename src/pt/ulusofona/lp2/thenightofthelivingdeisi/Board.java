@@ -227,7 +227,9 @@ public class Board {
             return false;
         }
         if (positionOcupiedByEquipment(dest)) {
-            zombie.incrementEquipmentsDestroyed();
+            Equipment equipment = getEquipmentByInfoString(grid[dest.getX()][dest.getY()]);
+            assert equipment != null;
+            zombie.destroy(equipment);
         }
         grid[xO][yO] = null;
         zombie.changePosition(dest.getX(), dest.getY());

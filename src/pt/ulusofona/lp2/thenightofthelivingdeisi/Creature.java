@@ -101,6 +101,7 @@ public class Creature {
     }
     public void destroy(Equipment equipment) {
         equipment.setAsDestroyed();
+        incrementEquipmentsDestroyed();;
     }
 
     public void incrementEquipmentsDestroyed() {
