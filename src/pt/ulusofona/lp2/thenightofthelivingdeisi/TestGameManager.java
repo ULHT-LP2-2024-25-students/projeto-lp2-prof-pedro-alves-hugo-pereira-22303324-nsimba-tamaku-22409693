@@ -26,4 +26,14 @@ public class TestGameManager {
         boolean carregou = gameManager.loadGame(file);
         Assertions.assertFalse(carregou);
     }
+
+    @Test
+    public void deveDeveMoverUmHumanoComSucesso() {
+        File file = new File("./test-files/5x5.txt");
+        Assertions.assertTrue(file.exists());
+        GameManager gameManager = new GameManager();
+        boolean carregou = gameManager.loadGame(file);
+        Assertions.assertTrue(carregou);
+        Assertions.assertTrue(gameManager.move(0,0, 0,1));
+    }
 }

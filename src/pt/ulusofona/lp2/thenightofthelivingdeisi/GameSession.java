@@ -20,6 +20,7 @@ public class GameSession {
         this.shift = shift;
         this.turnCounter = 0;
         board = new Board(rows, cols, creatures, equipments);
+        this.assembleBoard();
     }
 
 
