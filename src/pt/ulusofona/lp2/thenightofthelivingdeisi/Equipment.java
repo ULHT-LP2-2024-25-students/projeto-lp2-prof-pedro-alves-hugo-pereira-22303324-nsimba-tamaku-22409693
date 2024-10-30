@@ -5,8 +5,8 @@ public class Equipment {
     private final EquipmentType type;
     private Coord coord;
     private String image;
-    private boolean isCaptured = false;
-    private boolean isDestroyed = false;
+    private boolean captured = false;
+    private boolean destroyed = false;
 
     public Equipment(int id, EquipmentType type, int row, int col, String image) {
         this.id = id;
@@ -58,19 +58,19 @@ public class Equipment {
     }
 
     public void setAsCaptured() {
-        this.isCaptured = true;
+        this.captured = true;
     }
 
     public void setAsDestroyed() {
-        this.isDestroyed = true;
+        this.destroyed = true;
     }
 
     public boolean isCaptured() {
-        return isCaptured;
+        return captured;
     }
 
     public boolean isDestroyed() {
-        return isCaptured;
+        return destroyed;
     }
 
 
