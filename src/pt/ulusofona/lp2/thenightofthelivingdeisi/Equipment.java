@@ -5,14 +5,14 @@ public class Equipment {
     private final EquipmentType type;
     private Coord coord;
     private String image;
-    private boolean captured = false;
-    private boolean destroyed = false;
+    private EquipmentStatus status;
 
     public Equipment(int id, EquipmentType type, int row, int col, String image) {
         this.id = id;
         this.type = type;
         this.coord = new Coord(row, col);
         this.image = image;
+        this.status = EquipmentStatus.UNCAPTURED;
     }
 
     public int getId() {
@@ -25,6 +25,14 @@ public class Equipment {
 
     public String getAssocietedTypeName() {
         return type == EquipmentType.ESPADA ? "Espada samurai" : "Escudo de madeira";
+    }
+
+    public EquipmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EquipmentStatus status) {
+        this.status = status;
     }
 
     public int getAssocietedTypeNumber() {
@@ -58,19 +66,19 @@ public class Equipment {
     }
 
     public void setAsCaptured() {
-        this.captured = true;
+        this.status = EquipmentStatus.CAPTURED;
     }
 
     public void setAsDestroyed() {
-        this.destroyed = true;
+        this.status = EquipmentStatus.DESRTOYED;
     }
 
     public boolean isCaptured() {
-        return captured;
+        return status == EquipmentStatus.CAPTURED;
     }
 
     public boolean isDestroyed() {
-        return destroyed;
+        return status == EquipmentStatus.DESRTOYED;
     }
 
 
