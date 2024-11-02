@@ -63,7 +63,6 @@ public class GameManager {
             return true;
 
         } catch (Exception e) {
-            System.err.println("Erro ao carregar o jogo: " + e.getMessage());
             return false;
         }
     }

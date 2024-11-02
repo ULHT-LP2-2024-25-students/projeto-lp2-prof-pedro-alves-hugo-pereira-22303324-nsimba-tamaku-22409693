@@ -199,13 +199,17 @@ public class Board {
             return false;
         }
 
+        if (positionOcupiedByCreature(dest)) {
+            return false;
+        }
+
         if (shift == 1) { //Vez do humano
             if (!positionOcupiedByCreature(origin, CreatureType.HUMANO)) {
                 return false;
             }
             Creature human = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
             assert human != null; //Temos a certeza que nao é null mas verificamos na mesma
-            if ((human.hasEquipment() && positionOcupiedByEquipment(dest)) || positionOcupiedByCreature(dest)) {
+            if ((human.hasEquipment() && positionOcupiedByEquipment(dest))) {
                 return false;
             }
             if (!human.hasEquipment() && positionOcupiedByEquipment(dest)) {
@@ -223,9 +227,6 @@ public class Board {
         }
         Creature zombie = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
         assert zombie != null;
-        if (positionOcupiedByCreature(dest)) {
-            return false;
-        }
         if (positionOcupiedByEquipment(dest)) {
             Equipment equipment = getEquipmentByInfoString(grid[dest.getX()][dest.getY()]);
             assert equipment != null;
