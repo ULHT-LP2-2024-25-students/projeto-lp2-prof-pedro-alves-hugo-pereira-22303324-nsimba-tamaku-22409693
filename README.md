@@ -2,7 +2,7 @@
 
 Neste projeto/jogo decidimos separar ao máximo as resposabilidades das entidades. O gameManeger encarrega-se simplesmente de chamar os métodos/funçóes obrigatórias do projeto, o único método no qual ele se encarrega de implementar é o loadGame.
 
-## Entidades do projeto
+## Diagrama UML
 
 ![](diagrama.png?raw=true "Diagrama UML")
 
