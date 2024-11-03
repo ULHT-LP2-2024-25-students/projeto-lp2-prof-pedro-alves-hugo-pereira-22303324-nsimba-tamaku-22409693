@@ -51,6 +51,7 @@ public class Board {
                 creaturesByType.get(creature.getType()).add(creature);
             } else {
                 creaturesByType.put(creature.getType(), new ArrayList<>());
+                creaturesByType.get(creature.getType()).add(creature);
             }
         }
         return creaturesByType;

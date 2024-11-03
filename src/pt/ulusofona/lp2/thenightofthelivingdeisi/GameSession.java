@@ -98,6 +98,24 @@ public class GameSession {
         return false;
     }
 
+    public ArrayList<String> getSurvivors() {
+        ArrayList<String> survivorsInfo = new ArrayList<>();
+        survivorsInfo.add("Nr. turnos termindos:");
+        survivorsInfo.add(turnCounter + "");
+        survivorsInfo.add("");
+        survivorsInfo.add("OS VIVOS");
+        for (Creature human : board.getHumans()) {
+            survivorsInfo.add(String.format("%d %s", human.getId(), human.getName()));
+        }
+        survivorsInfo.add("");
+        survivorsInfo.add("OS OUTROS");
+        for (Creature zombie : board.getZombies()) {
+            survivorsInfo.add(String.format("%d %s", zombie.getId(), zombie.getName()));
+        }
+        survivorsInfo.add("-----");
+        return survivorsInfo;
+    }
+
     public boolean gameIsOver() {
         return turnCounter == 12;
     }

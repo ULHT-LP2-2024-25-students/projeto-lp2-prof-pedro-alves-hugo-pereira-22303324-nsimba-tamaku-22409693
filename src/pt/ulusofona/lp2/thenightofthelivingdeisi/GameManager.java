@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -116,11 +117,70 @@ public class GameManager {
     }
 
     public ArrayList<String> getSurvivors() {
-        return null;
+        return gameSession.getSurvivors();
     }
 
     public JPanel getCreditsPanel() {
-        return null;
+        // Criação do painel principal
+        JPanel creditsPanel = new JPanel();
+        creditsPanel.setLayout(new BorderLayout());
+
+        // Fundo e estilo
+        creditsPanel.setBackground(new Color(30, 144, 255)); // Azul vibrante, estilo céu
+
+        // Criação do título
+        JLabel title = new JLabel("Créditos");
+        title.setFont(new Font("Serif", Font.BOLD, 36));
+        title.setForeground(Color.WHITE);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        creditsPanel.add(title, BorderLayout.NORTH);
+
+        // Painel central com os créditos
+        JPanel textPanel = new JPanel();
+        textPanel.setBackground(new Color(34, 139, 34)); // Verde, estilo "grama"
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+
+        // Adicionando mensagens estilo Minecraft
+        JLabel line1 = new JLabel("Este jogo foi criado por:");
+        line1.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        line1.setForeground(Color.WHITE);
+        line1.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel line2 = new JLabel("Hugo Pereira - Mestre das mecânicas!");
+        line2.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        line2.setForeground(Color.WHITE);
+        line2.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel line3 = new JLabel("Nsimba Tamaku - Arquitetura dos blocos!");
+        line3.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        line3.setForeground(Color.WHITE);
+        line3.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel line4 = new JLabel("Inspirado por uma noite pixelada sob o céu estrelado.");
+        line4.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        line4.setForeground(Color.LIGHT_GRAY);
+        line4.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel line5 = new JLabel("Dedicado aos que constroem mundos... um bloco de cada vez.");
+        line5.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        line5.setForeground(Color.LIGHT_GRAY);
+        line5.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Adicionando elementos ao painel de texto
+        textPanel.add(Box.createVerticalStrut(20));
+        textPanel.add(line1);
+        textPanel.add(Box.createVerticalStrut(10));
+        textPanel.add(line2);
+        textPanel.add(Box.createVerticalStrut(10));
+        textPanel.add(line3);
+        textPanel.add(Box.createVerticalStrut(20));
+        textPanel.add(line4);
+        textPanel.add(Box.createVerticalStrut(10));
+        textPanel.add(line5);
+
+        creditsPanel.add(textPanel, BorderLayout.CENTER);
+
+        return creditsPanel;
     }
 
     public HashMap<String, String> customizeBoard() {
