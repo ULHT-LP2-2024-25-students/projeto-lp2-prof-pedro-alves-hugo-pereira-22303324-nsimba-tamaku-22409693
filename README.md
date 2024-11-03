@@ -4,6 +4,10 @@ Neste projeto/jogo decidimos separar ao máximo as resposabilidades das entidade
 
 ## Entidades do projeto
 
+![](diagrama.png?raw=true "Diagrama UML")
+
+## Entidades do projeto
+
 | Nome da Entidade | Descrição |
 | ------ | ------ |
 | GameManager (classe) | Possui as funções/metodos obrigatórios do projeto |
