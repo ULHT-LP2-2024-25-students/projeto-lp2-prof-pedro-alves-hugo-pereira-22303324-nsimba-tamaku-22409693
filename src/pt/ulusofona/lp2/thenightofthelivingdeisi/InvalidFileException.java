@@ -4,4 +4,8 @@ public class InvalidFileException extends Exception {
     public InvalidFileException() {
 
     }
+
+    int getLineWithError() {
+        return 0;
+    }
 }
