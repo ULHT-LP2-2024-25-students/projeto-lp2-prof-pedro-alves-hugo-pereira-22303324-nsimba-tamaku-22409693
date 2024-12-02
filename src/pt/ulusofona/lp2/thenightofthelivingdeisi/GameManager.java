@@ -2,9 +2,7 @@ package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,31 +39,28 @@ public class GameManager {
         return new Equipment(id, type, row, col, null);
     }
 
-    public boolean loadGame(File file) {
+    public void loadGame(File file) throws FileNotFoundException, IOException, InvalidFileException {
         ArrayList<Creature> creatures = new ArrayList<>();
         ArrayList<Equipment> equipments = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            int[] dimensions = parseDimensions(reader.readLine());
-            int turn = Integer.parseInt(reader.readLine());
-            int creatureCount = Integer.parseInt(reader.readLine());
 
-            for (int i = 0; i < creatureCount; i++) {
-                creatures.add(parseCreature(reader.readLine()));
-            }
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        int[] dimensions = parseDimensions(reader.readLine());
+        int turn = Integer.parseInt(reader.readLine());
+        int creatureCount = Integer.parseInt(reader.readLine());
 
-            int equipmentCount = Integer.parseInt(reader.readLine());
-            for (int i = 0; i < equipmentCount; i++) {
-                equipments.add(parseEquipment(reader.readLine()));
-            }
-
-            gameSession = new GameSession(dimensions[0], dimensions[1], true, creatures, equipments, turn);
-
-            return true;
-
-        } catch (Exception e) {
-            return false;
+        for (int i = 0; i < creatureCount; i++) {
+            creatures.add(parseCreature(reader.readLine()));
         }
+
+        int equipmentCount = Integer.parseInt(reader.readLine());
+        for (int i = 0; i < equipmentCount; i++) {
+            equipments.add(parseEquipment(reader.readLine()));
+        }
+
+        gameSession = new GameSession(dimensions[0], dimensions[1], true, creatures, equipments, turn);
+
+
     }
 
     public int[] getWorldSize() {
@@ -182,6 +177,16 @@ public class GameManager {
 
         return creditsPanel;
     }
+
+    public void saveGame(File file) throws IOException {
+
+    }
+
+    public List<Integer> getIdsInSafeHaven() {
+        List<Integer> ids = new ArrayList<>();
+        return ids;
+    }
+
 
     public HashMap<String, String> customizeBoard() {
         return null;
