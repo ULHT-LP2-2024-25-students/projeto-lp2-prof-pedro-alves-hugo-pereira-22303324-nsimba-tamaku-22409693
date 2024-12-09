@@ -91,9 +91,10 @@ public abstract class Creature extends BoardPiece {
 
     public String getInfoAsString() {
         int equipmentCounter = equipment == null ? 0 : 1;
-        return String.format("%s | %s | %s | %s%d @ (%d, %d)",
+        return String.format("%s | %s | %s | %s | %s%d @ (%d, %d)",
                 getId(),
                 getCreatureTypeAsString(),
+                getCreatureTeamAsString(),
                 getName(),
                 getCreatureSign(),
                 isHuman() ? equipmentCounter : equipmentsDestroyed,

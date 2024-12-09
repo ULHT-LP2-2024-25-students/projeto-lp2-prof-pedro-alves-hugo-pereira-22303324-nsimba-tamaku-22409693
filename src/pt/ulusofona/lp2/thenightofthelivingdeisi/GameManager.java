@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameManager {
-    private GameSession gameSession;
+    private final GameSession gameSession;
 
     public GameManager() {
-        this.gameSession = new GameSession();
+        this.gameSession = GameSession.getInstance();
     }
 
     private int[] parseDimensions(String line, int currentLine) {
@@ -42,14 +42,7 @@ public class GameManager {
         } catch (Exception e) {
             throw new InvalidFileException(currentLine);
         }
-        return switch (creatureType) {
-            case 0 -> new Child(name, id, team, row, col, null);
-            case 1 -> new Adult(name, id, team, row, col, null);
-            case 2 -> new Eldery(name, id, team, row, col, null);
-            case 3 -> new Dog(name, id, row, col, null);
-            case 4 -> new Vampire(name, id, row, col, null);
-            default -> throw new InvalidFileException(currentLine);
-        };
+        return CreatureFactory.getInstance().createCreature(creatureType, name, id, team, row, col, currentLine);
     }
 
     private Equipment parseEquipment(String line, int currentLine) throws InvalidFileException {
@@ -66,13 +59,7 @@ public class GameManager {
         } catch (Exception e) {
             throw new InvalidFileException(currentLine);
         }
-        return switch (equipmentType) {
-            case 0 -> new Shield(id, row, col, null);
-            case 1 -> new Sword(id, row, col, null);
-            case 2 -> new Pistol(id, row, col, null);
-            case 3 -> new Bleach(id, row, col, null);
-            default -> throw new InvalidFileException(currentLine);
-        };
+        return EquipmentFactory.getInstance().createEquipment(equipmentType, id, row, col, currentLine);
     }
 
     public void loadGame(File file) throws FileNotFoundException, IOException, InvalidFileException {
@@ -106,7 +93,7 @@ public class GameManager {
             }
         }
 
-        gameSession = new GameSession(dimensions[0], dimensions[1], true, creatures, equipments, safeHeavenDoors, team);
+        gameSession.setGame(dimensions[0], dimensions[1], creatures, equipments, safeHeavenDoors, team);
     }
 
     public int[] getWorldSize() {
