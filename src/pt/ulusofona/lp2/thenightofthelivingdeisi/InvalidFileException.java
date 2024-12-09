@@ -1,11 +1,12 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
 public class InvalidFileException extends Exception {
-    public InvalidFileException() {
-
+    private final int lineWithError;
+    public InvalidFileException(int lineWithError) {
+        this.lineWithError = lineWithError;
     }
 
     int getLineWithError() {
-        return 0;
+        return lineWithError;
     }
 }

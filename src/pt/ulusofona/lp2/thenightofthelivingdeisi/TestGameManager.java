@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
 
 
 public class TestGameManager {
@@ -17,6 +18,17 @@ public class TestGameManager {
 //        boolean carregou = gameManager.loadGame(file);
 //        Assertions.assertTrue(carregou);
 //    }
+
+
+    @Test
+    public void testDeveLerComSucessoUmFicheiro7X7() throws InvalidFileException, IOException {
+        File file = new File("./test-files/7x7.txt");
+        Assertions.assertTrue(file.exists());
+        GameManager gameManager = new GameManager();
+        gameManager.loadGame(file);
+        Assertions.assertTrue(true);
+    }
+
 //
 //    @Test
 //    public void testDeveLerSemSucessoUmFicheiro5X5() {

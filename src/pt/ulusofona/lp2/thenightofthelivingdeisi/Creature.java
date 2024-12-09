@@ -1,20 +1,18 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
-import java.util.ArrayList;
-
-public class Creature {
+public abstract class Creature extends BoardPiece {
     private String name;
     private int id;
-    private CreatureType type;
+    private Team team;
     private Coord coord;
     private Equipment equipment;
     private String image;
     private int equipmentsDestroyed;
 
-    public Creature(String name, int id, CreatureType type, int row, int col, String image) {
+    public Creature(String name, int id, Team team, int row, int col, String image) {
         this.name = name;
         this.id = id;
-        this.type = type;
+        this.team = team;
         this.coord = new Coord(row, col);
         this.image = image;
         this.equipmentsDestroyed = 0;
@@ -28,20 +26,38 @@ public class Creature {
         return id;
     }
 
-    public CreatureType getType() {
-        return type;
+    public Team getTeam() {
+        return team;
     }
 
-    public String getCreatureTypeAsString() {
-        return type == CreatureType.HUMANO ? "Humano" : "Zombie";
+
+    public Coord getCoord() {
+        return this.coord;
+    }
+
+    public abstract String getCreatureTypeAsString();
+
+
+    public  String getCreatureTeamAsString() {
+        switch (team) {
+            case ALIVES -> {
+                return "Humano";
+            }
+            case ZOMBIES -> {
+                return "Zombie";
+            }
+            default -> {
+                return "";
+            }
+        }
     }
 
     public String getCreatureSign() {
-        return type == CreatureType.HUMANO ? "+" : "-";
+        return team == Team.ALIVES ? "+" : "-";
     }
 
     public boolean isHuman() {
-        return type == CreatureType.HUMANO;
+        return team == Team.ALIVES;
     }
 
     public String getImage() {
@@ -60,14 +76,15 @@ public class Creature {
     }
 
     public String[] getInfo() {
-        String[] info = new String[6];
-        String typeAsString = getCreatureTypeAsString();
+        String[] info = new String[7];
+        String teamAsString = getCreatureTeamAsString();
         info[0] = String.valueOf(getId());
-        info[1] = typeAsString;
-        info[2] = getName();
-        info[3] = String.valueOf(coord.getY());
-        info[4] = String.valueOf(coord.getX());
-        info[5] = String.valueOf(getImage());
+        info[1] = getCreatureTypeAsString();
+        info[2] = teamAsString;
+        info[3] = getName();
+        info[4] = String.valueOf(coord.getY());
+        info[5] = String.valueOf(coord.getX());
+        info[6] = String.valueOf(getImage());
         return info;
     }
 
@@ -83,17 +100,14 @@ public class Creature {
                 coord.getY(),coord.getX());
     }
 
-    public Coord getCoord() {
-        return coord;
-    }
 
     public boolean equip(Equipment equipment) {
-        if (type == CreatureType.HUMANO && this.equipment == null) {
+        if (team == Team.ALIVES && this.equipment == null) {
             equipment.setAsCaptured();
             this.equipment = equipment;
             return true;
         }
-        if (type == CreatureType.ZOMBIE) {
+        if (team == Team.ZOMBIES) {
             equipmentsDestroyed++;
             return true;
         }
@@ -111,4 +125,6 @@ public class Creature {
     public boolean hasEquipment() {
         return equipment != null;
     }
+
+
 }

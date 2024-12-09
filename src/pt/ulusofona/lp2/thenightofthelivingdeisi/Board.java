@@ -6,16 +6,18 @@ import java.util.HashMap;
 public class Board {
     int rows;
     int cols;
-    String[][] grid;
+    BoardPiece[][] grid;
     private ArrayList<Creature> creatures;
     private ArrayList<Equipment> equipments;
+    private ArrayList<SafeHeavenDoor> safeHeavenDoors;
 
-    public Board(int rows, int cols, ArrayList<Creature> creatures, ArrayList<Equipment> equipments) {
+    public Board(int rows, int cols, ArrayList<Creature> creatures, ArrayList<Equipment> equipments, ArrayList<SafeHeavenDoor> safeHeavenDoors) {
         this.rows = rows;
         this.cols = cols;
         this.creatures = creatures;
         this.equipments = equipments;
-        grid = new String[rows][cols];
+        this.safeHeavenDoors = safeHeavenDoors;
+        grid = new BoardPiece[rows][cols];
     }
 
     public int getRows() {
@@ -29,79 +31,89 @@ public class Board {
     public void assemblePieces() {
         for (Creature creature : creatures) {
             if (positionIsEmpty(creature.getCoord())) { //Verifica se a coordenada esta vazia
-                placePiece(creature.getCoord(), creature.getInfoAsString());
+                placePiece(creature.getCoord(), creature);
             }
         }
 
         for (Equipment equipment : equipments) {
             if (positionIsEmpty(equipment.getCoord())) {
-                placePiece(equipment.getCoord(), equipment.getInfoAsString());
+                placePiece(equipment.getCoord(), equipment);
+            }
+        }
+
+        for (SafeHeavenDoor safeHeavenDoor : safeHeavenDoors) {
+            if (positionIsEmpty(safeHeavenDoor.getCoord())) {
+                placePiece(safeHeavenDoor.getCoord(), safeHeavenDoor);
             }
         }
     }
 
-    private void placePiece(Coord coord, String pieceInformation) {
-        grid[coord.getX()][coord.getY()] = pieceInformation;
+    private void placePiece(Coord coord, BoardPiece piece) {
+        grid[coord.getX()][coord.getY()] = piece;
     }
 
-    public HashMap<CreatureType, ArrayList<Creature>> getCreaturesByType() { //
-        HashMap<CreatureType, ArrayList<Creature>> creaturesByType = new HashMap<>();
+    public HashMap<Team, ArrayList<Creature>> getCreaturesByTeam() {
+        HashMap<Team, ArrayList<Creature>> creaturesByType = new HashMap<>();
         for (Creature creature : creatures) {
-            if (creaturesByType.containsKey(creature.getType())) {
-                creaturesByType.get(creature.getType()).add(creature);
+            if (creaturesByType.containsKey(creature.getTeam())) {
+                creaturesByType.get(creature.getTeam()).add(creature);
             } else {
-                creaturesByType.put(creature.getType(), new ArrayList<>());
-                creaturesByType.get(creature.getType()).add(creature);
+                creaturesByType.put(creature.getTeam(), new ArrayList<>());
+                creaturesByType.get(creature.getTeam()).add(creature);
             }
         }
         return creaturesByType;
     }
 
     public ArrayList<Creature> getHumans() {
-        return getCreaturesByType().get(CreatureType.HUMANO);
+        return getCreaturesByTeam().get(Team.ALIVES);
     }
 
     public ArrayList<Creature> getZombies() {
-        return getCreaturesByType().get(CreatureType.ZOMBIE);
+        return getCreaturesByTeam().get(Team.ZOMBIES);
     }
 
     private boolean positionOcupiedByCreature(Coord coord) {
         if (positionIsEmpty(coord)) {
             return false;
         }
-        return grid[coord.getX()][coord.getY()].split("\\|").length == 4; // Faco split com "|" e verifico se o numero de partes e' igual a 4
+//        return grid[coord.getX()][coord.getY()].split("\\|").length == 4; // Faco split com "|" e verifico se o numero de partes e' igual a 4
+        return true;
     }
 
 
-    private boolean positionOcupiedByCreature(Coord coord, CreatureType creatureType) { //Verifica se a posicao esta ocupada pela criatura especificada
-        if (!positionOcupiedByCreature(coord)) {
-            return false;
-        }
-        String creatureInfo = grid[coord.getX()][coord.getY()];
-        Creature creature = getCreatureByInfoString(creatureInfo);
-        if (creature == null) {
-            return false;
-        }
-        return creature.getType() == creatureType;
+    private boolean positionOcupiedByCreature(Coord coord, Team team) { //Verifica se a posicao esta ocupada pela criatura especificada
+//        if (!positionOcupiedByCreature(coord)) {
+//            return false;
+//        }
+//        String creatureInfo = grid[coord.getX()][coord.getY()];
+//        Creature creature = getCreatureByInfoString(creatureInfo);
+//        if (creature == null) {
+//            return false;
+//        }
+//        return creature.getTeam() == team;
+        return true;
     }
 
     private boolean positionOcupiedByEquipment(Coord coord) {
-        if (positionIsEmpty(coord)) {
-            return false;
-        }
-        return grid[coord.getX()][coord.getY()].split("\\|").length == 2;
+//        if (positionIsEmpty(coord)) {
+//            return false;
+//        }
+//        return grid[coord.getX()][coord.getY()].split("\\|").length == 2;
+        return true;
     }
 
     private boolean positionOcupiedByEquipment(Coord coord, EquipmentType equipmentType) {
-        if (!positionOcupiedByEquipment(coord)) {
-            return false;
-        }
-        String equipmentInfo = grid[coord.getX()][coord.getY()];
-        Equipment equipment = getEquipmentByInfoString(equipmentInfo);
-        if (equipment == null) {
-            return false;
-        }
-        return equipment.getType() == equipmentType;
+//        if (!positionOcupiedByEquipment(coord)) {
+//            return false;
+//        }
+//        String equipmentInfo = grid[coord.getX()][coord.getY()];
+//        Equipment equipment = getEquipmentByInfoString(equipmentInfo);
+//        if (equipment == null) {
+//            return false;
+//        }
+//        return equipment.getType() == equipmentType;
+        return false;
     }
 
     private boolean positionIsEmpty(Coord coord) {
@@ -130,30 +142,8 @@ public class Board {
         if (positionIsEmpty(coord)) {
             return "";
         }
-        if (positionOcupiedByCreature(coord, CreatureType.HUMANO)) {
-            Creature creature = getCreatureByInfoString(grid[coord.getX()][coord.getY()]);
-            if (creature == null) {
-                return "";
-            }
-            return String.format("H:%d", creature.getId());
-        }
-
-        if (positionOcupiedByCreature(coord, CreatureType.ZOMBIE)) {
-            Creature creature = getCreatureByInfoString(grid[coord.getX()][coord.getY()]);
-            if (creature == null) {
-                return null;
-            }
-            return String.format("Z:%d", creature.getId());
-        }
-
-        if (positionOcupiedByEquipment(coord)) {
-            Equipment equipment = getEquipmentByInfoString(grid[coord.getX()][coord.getY()]);
-            if (equipment == null) {
-                return null;
-            }
-            return String.format("E:%d", equipment.getId());
-        }
-        return "";
+        BoardPiece boardPiece = grid[coord.getX()][coord.getY()];
+        return boardPiece.getResumedInfo();
     }
 
     public Creature getCreatureByID(int creatureID) {
@@ -193,49 +183,49 @@ public class Board {
     }
 
     public boolean moveElement(int xO, int yO, int xD, int yD, int shift) {
-        Coord origin = new Coord(xO, yO);
-        Coord dest = new Coord(xD, yD);
-
-        if (!isLegalMove(origin, dest)) {
-            return false;
-        }
-
-        if (positionOcupiedByCreature(dest)) {
-            return false;
-        }
-
-        if (shift == 1) { //Vez do humano
-            if (!positionOcupiedByCreature(origin, CreatureType.HUMANO)) {
-                return false;
-            }
-            Creature human = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
-            assert human != null; //Temos a certeza que nao é null mas verificamos na mesma
-            if ((human.hasEquipment() && positionOcupiedByEquipment(dest))) {
-                return false;
-            }
-            if (!human.hasEquipment() && positionOcupiedByEquipment(dest)) {
-                Equipment equipment = getEquipmentByInfoString(grid[dest.getX()][dest.getY()]);
-                assert equipment != null;
-                human.equip(equipment);
-            }
-            grid[xO][yO] = null;
-            human.changePosition(dest.getX(), dest.getY());
-            placePiece(dest, human.getInfoAsString());
-            return true;
-        }
-        if (!positionOcupiedByCreature(origin, CreatureType.ZOMBIE)) {
-            return false;
-        }
-        Creature zombie = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
-        assert zombie != null;
-        if (positionOcupiedByEquipment(dest)) {
-            Equipment equipment = getEquipmentByInfoString(grid[dest.getX()][dest.getY()]);
-            assert equipment != null;
-            zombie.destroy(equipment);
-        }
-        grid[xO][yO] = null;
-        zombie.changePosition(dest.getX(), dest.getY());
-        placePiece(dest, zombie.getInfoAsString());
+//        Coord origin = new Coord(xO, yO);
+//        Coord dest = new Coord(xD, yD);
+//
+//        if (!isLegalMove(origin, dest)) {
+//            return false;
+//        }
+//
+//        if (positionOcupiedByCreature(dest)) {
+//            return false;
+//        }
+//
+//        if (shift == 1) { //Vez do humano
+//            if (!positionOcupiedByCreature(origin, Team.ALIVES)) {
+//                return false;
+//            }
+//            Creature human = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
+//            assert human != null; //Temos a certeza que nao é null mas verificamos na mesma
+//            if ((human.hasEquipment() && positionOcupiedByEquipment(dest))) {
+//                return false;
+//            }
+//            if (!human.hasEquipment() && positionOcupiedByEquipment(dest)) {
+//                Equipment equipment = getEquipmentByInfoString(grid[dest.getX()][dest.getY()]);
+//                assert equipment != null;
+//                human.equip(equipment);
+//            }
+//            grid[xO][yO] = null;
+//            human.changePosition(dest.getX(), dest.getY());
+//            placePiece(dest, human.getInfoAsString());
+//            return true;
+//        }
+//        if (!positionOcupiedByCreature(origin, Team.ZOMBIES)) {
+//            return false;
+//        }
+//        Creature zombie = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
+//        assert zombie != null;
+//        if (positionOcupiedByEquipment(dest)) {
+//            Equipment equipment = getEquipmentByInfoString(grid[dest.getX()][dest.getY()]);
+//            assert equipment != null;
+//            zombie.destroy(equipment);
+//        }
+//        grid[xO][yO] = null;
+//        zombie.changePosition(dest.getX(), dest.getY());
+//        placePiece(dest, zombie.getInfoAsString());
         return true;
     }
 }

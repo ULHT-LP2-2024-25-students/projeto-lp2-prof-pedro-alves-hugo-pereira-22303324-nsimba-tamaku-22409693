@@ -1,31 +1,30 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
-public class Equipment {
+public abstract class Equipment extends BoardPiece {
     private final int id;
-    private final EquipmentType type;
     private Coord coord;
     private String image;
     private EquipmentStatus status;
+    private EquipmentType type;
 
-    public Equipment(int id, EquipmentType type, int row, int col, String image) {
+    public Equipment(int id, int row, int col, String image, EquipmentType type) {
         this.id = id;
-        this.type = type;
         this.coord = new Coord(row, col);
         this.image = image;
         this.status = EquipmentStatus.UNCAPTURED;
+        this.type = type;
     }
 
     public int getId() {
         return id;
     }
 
-    public EquipmentType getType() {
-        return type;
+    public Coord getCoord() {
+        return this.coord;
     }
 
-    public String getAssocietedTypeName() {
-        return type == EquipmentType.ESPADA ? "Espada samurai" : "Escudo de madeira";
-    }
+
+    abstract public String getAssocietedTypeName();
 
     public EquipmentStatus getStatus() {
         return status;
@@ -35,17 +34,12 @@ public class Equipment {
         this.status = status;
     }
 
-    public int getAssocietedTypeNumber() {
-        return type == EquipmentType.ESPADA ? 1 : 0;
-    }
+    abstract public int getAssocietedTypeNumber();
 
     public String getImage() {
         return image;
     }
 
-    public Coord getCoord() {
-        return coord;
-    }
 
     public void setImage(String image) {
         this.image = image;
@@ -81,9 +75,13 @@ public class Equipment {
         return status == EquipmentStatus.DESRTOYED;
     }
 
-
     public String getInfoAsString() {
         String typeEquipment = getAssocietedTypeName();
         return String.format("%d | %s @ (%d,%d)", id, typeEquipment, coord.getY(), coord.getX());
+    }
+
+    @Override
+    public String getResumedInfo() {
+        return String.format("E:%d", this.getId());
     }
 }

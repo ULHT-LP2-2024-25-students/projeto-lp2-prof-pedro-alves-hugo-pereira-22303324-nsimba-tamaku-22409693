@@ -15,11 +15,11 @@ public class GameSession {
         isDay = false;
     }
 
-    public GameSession(int rows, int cols, boolean isDay, ArrayList<Creature> creatures, ArrayList<Equipment> equipments, int shift) {
+    public GameSession(int rows, int cols, boolean isDay, ArrayList<Creature> creatures, ArrayList<Equipment> equipments, ArrayList<SafeHeavenDoor> safeHeavenDoors, int shift) {
         this.isDay = isDay;
         this.shift = shift;
         this.turnCounter = 0;
-        board = new Board(rows, cols, creatures, equipments);
+        board = new Board(rows, cols, creatures, equipments, safeHeavenDoors);
         this.assembleBoard();
     }
 
@@ -38,7 +38,7 @@ public class GameSession {
 
     public void changeTurn() {
         turnCounter++;
-        shift = shift == 1 ? 0 : 1;
+        shift = shift == 10 ? 20 : 10;
         if (turnCounter % 2 == 0) { //A cada duas jogas trocar o turno
             isDay = !isDay;
         }
@@ -58,8 +58,8 @@ public class GameSession {
 
     public String[] getCreatureInfo(int id) {
         String[] creatureInfo = board.getCreatureByID(id).getInfo();
-        if (Objects.equals(creatureInfo[5], "null")) {
-            creatureInfo[5] = null;
+        if (Objects.equals(creatureInfo[6], "null")) {
+            creatureInfo[6] = null;
         }
         return creatureInfo;
     }

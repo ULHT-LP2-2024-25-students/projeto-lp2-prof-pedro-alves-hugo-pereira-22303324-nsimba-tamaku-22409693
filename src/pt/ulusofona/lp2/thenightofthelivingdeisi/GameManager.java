@@ -6,7 +6,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class GameManager {
     private GameSession gameSession;
@@ -15,52 +14,99 @@ public class GameManager {
         this.gameSession = new GameSession();
     }
 
-    private int[] parseDimensions(String line) {
+    private int[] parseDimensions(String line, int currentLine) {
         String[] parts = line.split(" ");
         return new int[]{Integer.parseInt(parts[0]), Integer.parseInt(parts[1])};
     }
 
-    private Creature parseCreature(String line) {
+    private SafeHeavenDoor parseSafeHeavenDoor(String line, int currentLine) {
         String[] parts = line.split(":");
-        int id = Integer.parseInt(parts[0].trim());
-        CreatureType type = parts[1].trim().equals("1") ? CreatureType.HUMANO : CreatureType.ZOMBIE;
-        String name = parts[2].trim();
-        int col = Integer.parseInt(parts[3].trim());
-        int row = Integer.parseInt(parts[4].trim());
-        return new Creature(name, id, type, row, col, null);
+        return new SafeHeavenDoor(new Coord(Integer.parseInt(parts[1].trim()), Integer.parseInt(parts[0].trim())));
     }
 
-    private Equipment parseEquipment(String line) {
-        String[] parts = line.substring(1).split(":");
-        int id = Integer.parseInt(parts[0].trim()) * -1;
-        EquipmentType type = parts[1].trim().equals("1") ? EquipmentType.ESPADA : EquipmentType.ESCUDO;
-        int col = Integer.parseInt(parts[2].trim());
-        int row = Integer.parseInt(parts[3].trim());
-        return new Equipment(id, type, row, col, null);
+    private Creature parseCreature(String line, int currentLine) throws InvalidFileException {
+        int id = 0;
+        Team team = null;
+        int creatureType = 0;
+        String name = null;
+        int col = 0;
+        int row = 0;
+        try {
+            String[] parts = line.split(":");
+            id = Integer.parseInt(parts[0].trim());
+            team = parts[1].trim().equals("20") ? Team.ALIVES : Team.ZOMBIES;
+            creatureType = Integer.parseInt(parts[2].trim());
+            name = parts[3].trim();
+            col = Integer.parseInt(parts[4].trim());
+            row = Integer.parseInt(parts[5].trim());
+        } catch (Exception e) {
+            throw new InvalidFileException(currentLine);
+        }
+        return switch (creatureType) {
+            case 0 -> new Child(name, id, team, row, col, null);
+            case 1 -> new Adult(name, id, team, row, col, null);
+            case 2 -> new Eldery(name, id, team, row, col, null);
+            case 3 -> new Dog(name, id, row, col, null);
+            case 4 -> new Vampire(name, id, row, col, null);
+            default -> throw new InvalidFileException(currentLine);
+        };
+    }
+
+    private Equipment parseEquipment(String line, int currentLine) throws InvalidFileException {
+        int id = 0;
+        int equipmentType = 0;
+        int col = 0;
+        int row = 0;
+        try {
+            String[] parts = line.substring(1).split(":");
+            id = Integer.parseInt(parts[0].trim()) * -1;
+            equipmentType = Integer.parseInt(parts[1].trim());
+            col = Integer.parseInt(parts[2].trim());
+            row = Integer.parseInt(parts[3].trim());
+        } catch (Exception e) {
+            throw new InvalidFileException(currentLine);
+        }
+        return switch (equipmentType) {
+            case 0 -> new Shield(id, row, col, null);
+            case 1 -> new Sword(id, row, col, null);
+            case 2 -> new Pistol(id, row, col, null);
+            case 3 -> new Bleach(id, row, col, null);
+            default -> throw new InvalidFileException(currentLine);
+        };
     }
 
     public void loadGame(File file) throws FileNotFoundException, IOException, InvalidFileException {
         ArrayList<Creature> creatures = new ArrayList<>();
         ArrayList<Equipment> equipments = new ArrayList<>();
-
+        ArrayList<SafeHeavenDoor> safeHeavenDoors = new ArrayList<>();
+        int currentLine = 1;
 
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        int[] dimensions = parseDimensions(reader.readLine());
-        int turn = Integer.parseInt(reader.readLine());
+        int[] dimensions = parseDimensions(reader.readLine(), currentLine);
+        int team = Integer.parseInt(reader.readLine());
         int creatureCount = Integer.parseInt(reader.readLine());
 
+        currentLine += 2;
         for (int i = 0; i < creatureCount; i++) {
-            creatures.add(parseCreature(reader.readLine()));
+            currentLine += i;
+            creatures.add(parseCreature(reader.readLine(), currentLine));
         }
 
         int equipmentCount = Integer.parseInt(reader.readLine());
         for (int i = 0; i < equipmentCount; i++) {
-            equipments.add(parseEquipment(reader.readLine()));
+            currentLine += i;
+            equipments.add(parseEquipment(reader.readLine(), currentLine));
         }
 
-        gameSession = new GameSession(dimensions[0], dimensions[1], true, creatures, equipments, turn);
+        if (!equipments.isEmpty()) {
+            int safeHeavenDoorsCount = Integer.parseInt(reader.readLine());
+            for (int i = 0; i < safeHeavenDoorsCount; i++) {
+                currentLine += i;
+                safeHeavenDoors.add(parseSafeHeavenDoor(reader.readLine(), currentLine));
+            }
+        }
 
-
+        gameSession = new GameSession(dimensions[0], dimensions[1], true, creatures, equipments, safeHeavenDoors, team);
     }
 
     public int[] getWorldSize() {
