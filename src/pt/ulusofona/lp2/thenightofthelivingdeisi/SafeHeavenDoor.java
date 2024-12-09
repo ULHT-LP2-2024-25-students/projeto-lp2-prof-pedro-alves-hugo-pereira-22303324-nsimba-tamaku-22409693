@@ -11,6 +11,11 @@ public class SafeHeavenDoor extends BoardPiece{
         return "SH";
     }
 
+    @Override
+    public boolean moves() {
+        return false;
+    }
+
     public Coord getCoord() {
         return this.coord;
     }

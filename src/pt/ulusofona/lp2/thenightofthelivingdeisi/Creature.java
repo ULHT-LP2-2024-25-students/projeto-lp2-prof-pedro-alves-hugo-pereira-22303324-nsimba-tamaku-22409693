@@ -38,7 +38,7 @@ public abstract class Creature extends BoardPiece {
     public abstract String getCreatureTypeAsString();
 
 
-    public  String getCreatureTeamAsString() {
+    public String getCreatureTeamAsString() {
         switch (team) {
             case ALIVES -> {
                 return "Humano";
@@ -98,7 +98,7 @@ public abstract class Creature extends BoardPiece {
                 getName(),
                 getCreatureSign(),
                 isHuman() ? equipmentCounter : equipmentsDestroyed,
-                coord.getY(),coord.getX());
+                coord.getY(), coord.getX());
     }
 
 
@@ -114,9 +114,10 @@ public abstract class Creature extends BoardPiece {
         }
         return false;
     }
+
     public void destroy(Equipment equipment) {
         equipment.setAsDestroyed();
-        incrementEquipmentsDestroyed();;
+        incrementEquipmentsDestroyed();
     }
 
     public void incrementEquipmentsDestroyed() {
@@ -126,6 +127,20 @@ public abstract class Creature extends BoardPiece {
     public boolean hasEquipment() {
         return equipment != null;
     }
+
+    public String getResumedInfo() {
+        String team = this.getTeam() == Team.ALIVES ? "H" : "Z";
+        return String.format("%s:%d", team, this.getId());
+    }
+
+    @Override
+    public boolean moves() {
+        return true;
+    }
+
+    public abstract boolean movesRectilinear(int distance);
+
+    public abstract boolean movesObliqual(int distance);
 
 
 }

@@ -10,5 +10,6 @@ public abstract class BoardPiece {
 
     abstract String getResumedInfo();
 
+    public abstract  boolean moves();
 
 }

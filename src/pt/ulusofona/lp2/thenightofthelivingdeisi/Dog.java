@@ -10,7 +10,13 @@ public class Dog extends Creature {
         return "Cão";
     }
 
-    public String getResumedInfo() {
-        return String.format("H:%d", this.getId());
+    @Override
+    public boolean movesRectilinear(int distance) {
+        return distance >= 1 && distance <= 2;
+    }
+
+    @Override
+    public boolean movesObliqual(int distance) {
+        return false;
     }
 }

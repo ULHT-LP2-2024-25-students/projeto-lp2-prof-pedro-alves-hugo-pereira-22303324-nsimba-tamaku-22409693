@@ -7,9 +7,9 @@ public class Board {
     int rows;
     int cols;
     BoardPiece[][] grid;
-    private ArrayList<Creature> creatures;
-    private ArrayList<Equipment> equipments;
-    private ArrayList<SafeHeavenDoor> safeHeavenDoors;
+    private final ArrayList<Creature> creatures;
+    private final ArrayList<Equipment> equipments;
+    private final ArrayList<SafeHeavenDoor> safeHeavenDoors;
 
     public Board(int rows, int cols, ArrayList<Creature> creatures, ArrayList<Equipment> equipments, ArrayList<SafeHeavenDoor> safeHeavenDoors) {
         this.rows = rows;
@@ -28,22 +28,18 @@ public class Board {
         return cols;
     }
 
+    public ArrayList<BoardPiece> getPieces() {
+        ArrayList<BoardPiece> pieces = new ArrayList<>();
+        pieces.addAll(creatures);
+        pieces.addAll(equipments);
+        pieces.addAll(safeHeavenDoors);
+        return pieces;
+    }
+
     public void assemblePieces() {
-        for (Creature creature : creatures) {
-            if (positionIsEmpty(creature.getCoord())) { //Verifica se a coordenada esta vazia
-                placePiece(creature.getCoord(), creature);
-            }
-        }
-
-        for (Equipment equipment : equipments) {
-            if (positionIsEmpty(equipment.getCoord())) {
-                placePiece(equipment.getCoord(), equipment);
-            }
-        }
-
-        for (SafeHeavenDoor safeHeavenDoor : safeHeavenDoors) {
-            if (positionIsEmpty(safeHeavenDoor.getCoord())) {
-                placePiece(safeHeavenDoor.getCoord(), safeHeavenDoor);
+        for (BoardPiece boardPiece : getPieces()) {
+            if (positionIsEmpty(boardPiece.getCoord())) { //Verifica se a coordenada esta vazia
+                placePiece(boardPiece.getCoord(), boardPiece);
             }
         }
     }
@@ -77,43 +73,33 @@ public class Board {
         if (positionIsEmpty(coord)) {
             return false;
         }
-//        return grid[coord.getX()][coord.getY()].split("\\|").length == 4; // Faco split com "|" e verifico se o numero de partes e' igual a 4
-        return true;
+        BoardPiece boardPiece = grid[coord.getX()][coord.getY()];
+        return boardPiece.moves();
+    }
+
+    private boolean positionOcupiedByEquipment(Coord coord) {
+        if (positionIsEmpty(coord)) {
+            return false;
+        }
+        BoardPiece boardPiece = grid[coord.getX()][coord.getY()];
+        return !boardPiece.moves();
     }
 
 
     private boolean positionOcupiedByCreature(Coord coord, Team team) { //Verifica se a posicao esta ocupada pela criatura especificada
-//        if (!positionOcupiedByCreature(coord)) {
-//            return false;
-//        }
-//        String creatureInfo = grid[coord.getX()][coord.getY()];
-//        Creature creature = getCreatureByInfoString(creatureInfo);
-//        if (creature == null) {
-//            return false;
-//        }
-//        return creature.getTeam() == team;
-        return true;
-    }
-
-    private boolean positionOcupiedByEquipment(Coord coord) {
-//        if (positionIsEmpty(coord)) {
-//            return false;
-//        }
-//        return grid[coord.getX()][coord.getY()].split("\\|").length == 2;
-        return true;
+        if (!positionOcupiedByCreature(coord)) {
+            return false;
+        }
+        Creature creature = (Creature) grid[coord.getX()][coord.getY()];
+        return creature.getTeam() == team;
     }
 
     private boolean positionOcupiedByEquipment(Coord coord, EquipmentType equipmentType) {
-//        if (!positionOcupiedByEquipment(coord)) {
-//            return false;
-//        }
-//        String equipmentInfo = grid[coord.getX()][coord.getY()];
-//        Equipment equipment = getEquipmentByInfoString(equipmentInfo);
-//        if (equipment == null) {
-//            return false;
-//        }
-//        return equipment.getType() == equipmentType;
-        return false;
+        if (!positionOcupiedByEquipment(coord)) {
+            return false;
+        }
+        Equipment equipment = (Equipment) grid[coord.getX()][coord.getY()];
+        return equipment.getType() == equipmentType;
     }
 
     private boolean positionIsEmpty(Coord coord) {
@@ -171,61 +157,97 @@ public class Board {
         return coord.getX() >= rows || coord.getY() >= cols;
     }
 
-    public boolean isLegalMove(Coord origin, Coord destination) {
+    public boolean canMoveRectilinear(Coord origin, Coord destination, int distance) {
         if (coordIsOutOfBounds(origin) || coordIsOutOfBounds(destination)) {
             return false;
         }
         int horizontalDistance = Math.abs(destination.getY() - origin.getY());
         int verticalDistance = Math.abs(destination.getX() - origin.getX());
 
-        return ((verticalDistance == 0 && horizontalDistance == 1) || // Pode andar na horizontal uma casa
-                (horizontalDistance == 0 && verticalDistance == 1)); // Pode andar na vertical uma casa
+        return ((verticalDistance == 0 && horizontalDistance == distance) || // Pode andar na horizontal distance casas
+                (horizontalDistance == 0 && verticalDistance == distance)); // Pode andar na vertical distance casas
     }
 
+    public boolean canMoveObliqual(Coord origin, Coord destination, int distance) {
+        if (coordIsOutOfBounds(origin) || coordIsOutOfBounds(destination)) {
+            return false;
+        }
+        int horizontalDistance = Math.abs(destination.getY() - origin.getY());
+        int verticalDistance = Math.abs(destination.getX() - origin.getX());
+
+        return ((verticalDistance == horizontalDistance && horizontalDistance == distance)); // Pode andar na vertical distance casas
+    }
+
+    public int getDistance(Coord origin, Coord destination) {
+        int horizontalDistance = Math.abs(destination.getY() - origin.getY());
+        int verticalDistance = Math.abs(destination.getX() - origin.getX());
+
+        return Math.max(horizontalDistance, verticalDistance);
+    }
+
+    public boolean isLegalMove(Coord origin, Coord dest, Creature creature) {
+        int distance = getDistance(origin, dest);
+        boolean creatureMovesObliqual = creature.movesObliqual(distance);
+        boolean creatureMovesRectilinear = creature.movesRectilinear(distance);
+
+        boolean creatureCanMoveRectilinear = canMoveRectilinear(origin, dest, distance);
+        boolean creatureCanMoveObliqual = canMoveObliqual(origin, dest, distance);
+
+        if (creatureMovesRectilinear && creatureCanMoveRectilinear) {
+            return true;
+        }
+        return creatureMovesObliqual && creatureCanMoveObliqual;
+    }
+
+
     public boolean moveElement(int xO, int yO, int xD, int yD, int shift) {
-//        Coord origin = new Coord(xO, yO);
-//        Coord dest = new Coord(xD, yD);
-//
-//        if (!isLegalMove(origin, dest)) {
-//            return false;
-//        }
-//
-//        if (positionOcupiedByCreature(dest)) {
-//            return false;
-//        }
-//
-//        if (shift == 1) { //Vez do humano
-//            if (!positionOcupiedByCreature(origin, Team.ALIVES)) {
-//                return false;
-//            }
-//            Creature human = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
-//            assert human != null; //Temos a certeza que nao é null mas verificamos na mesma
-//            if ((human.hasEquipment() && positionOcupiedByEquipment(dest))) {
-//                return false;
-//            }
-//            if (!human.hasEquipment() && positionOcupiedByEquipment(dest)) {
-//                Equipment equipment = getEquipmentByInfoString(grid[dest.getX()][dest.getY()]);
-//                assert equipment != null;
-//                human.equip(equipment);
-//            }
-//            grid[xO][yO] = null;
-//            human.changePosition(dest.getX(), dest.getY());
-//            placePiece(dest, human.getInfoAsString());
-//            return true;
-//        }
-//        if (!positionOcupiedByCreature(origin, Team.ZOMBIES)) {
-//            return false;
-//        }
-//        Creature zombie = getCreatureByInfoString(grid[origin.getX()][origin.getY()]);
-//        assert zombie != null;
-//        if (positionOcupiedByEquipment(dest)) {
-//            Equipment equipment = getEquipmentByInfoString(grid[dest.getX()][dest.getY()]);
-//            assert equipment != null;
-//            zombie.destroy(equipment);
-//        }
-//        grid[xO][yO] = null;
-//        zombie.changePosition(dest.getX(), dest.getY());
-//        placePiece(dest, zombie.getInfoAsString());
+        Coord origin = new Coord(xO, yO);
+        Coord dest = new Coord(xD, yD);
+
+        if (positionOcupiedByCreature(dest)) {
+            return false;
+        }
+
+        if (shift == 20) { //Vez do humano
+            if (!positionOcupiedByCreature(origin, Team.ALIVES)) {
+                return false;
+            }
+            Creature human = (Creature) (grid[origin.getX()][origin.getY()]);
+            assert human != null; //Temos a certeza que nao é null mas verificamos na mesma
+
+            if (!isLegalMove(origin, dest, human)) {
+                return false;
+            }
+
+            if ((human.hasEquipment() && positionOcupiedByEquipment(dest))) {
+                return false;
+            }
+            if (!human.hasEquipment() && positionOcupiedByEquipment(dest)) {
+                Equipment equipment = (Equipment) (grid[dest.getX()][dest.getY()]);
+                assert equipment != null;
+                human.equip(equipment);
+            }
+            grid[xO][yO] = null;
+            human.changePosition(dest.getX(), dest.getY());
+            placePiece(dest, human);
+            return true;
+        }
+        if (!positionOcupiedByCreature(origin, Team.ZOMBIES)) {
+            return false;
+        }
+        Creature zombie = (Creature) (grid[origin.getX()][origin.getY()]);
+        assert zombie != null;
+        if (!isLegalMove(origin, dest, zombie)) {
+            return false;
+        }
+        if (positionOcupiedByEquipment(dest)) {
+            Equipment equipment = (Equipment) (grid[dest.getX()][dest.getY()]);
+            assert equipment != null;
+            zombie.destroy(equipment);
+        }
+        grid[xO][yO] = null;
+        zombie.changePosition(dest.getX(), dest.getY());
+        placePiece(dest, zombie);
         return true;
     }
 }

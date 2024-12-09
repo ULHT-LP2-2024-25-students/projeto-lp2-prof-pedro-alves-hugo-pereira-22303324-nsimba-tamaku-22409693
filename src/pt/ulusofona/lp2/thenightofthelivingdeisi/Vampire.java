@@ -5,16 +5,18 @@ public class Vampire extends Creature {
         super(name,  id,  Team.ZOMBIES,  row, col,  image);
     }
 
-
-
-
     @Override
     public String getCreatureTypeAsString() {
         return "Vampiro";
     }
 
+    @Override
+    public boolean movesRectilinear(int distance) {
+        return distance == 1;
+    }
 
-    public String getResumedInfo() {
-        return String.format("Z:%d", this.getId());
+    @Override
+    public boolean movesObliqual(int distance) {
+        return distance == 1;
     }
 }

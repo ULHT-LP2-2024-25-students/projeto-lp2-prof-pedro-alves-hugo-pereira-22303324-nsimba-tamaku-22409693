@@ -41,6 +41,11 @@ public abstract class Equipment extends BoardPiece {
     }
 
 
+    @Override
+    public boolean moves() {
+        return false;
+    }
+
     public void setImage(String image) {
         this.image = image;
     }
@@ -83,5 +88,9 @@ public abstract class Equipment extends BoardPiece {
     @Override
     public String getResumedInfo() {
         return String.format("E:%d", this.getId());
+    }
+
+    public EquipmentType getType() {
+        return type;
     }
 }
