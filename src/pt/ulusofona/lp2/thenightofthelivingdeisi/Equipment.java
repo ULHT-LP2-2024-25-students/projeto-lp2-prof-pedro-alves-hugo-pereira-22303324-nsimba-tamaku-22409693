@@ -72,6 +72,10 @@ public abstract class Equipment extends BoardPiece {
         this.status = EquipmentStatus.DESRTOYED;
     }
 
+    public void setAsUncaptured() {
+        this.status = EquipmentStatus.UNCAPTURED;
+    }
+
     public boolean isCaptured() {
         return status == EquipmentStatus.CAPTURED;
     }
@@ -79,6 +83,11 @@ public abstract class Equipment extends BoardPiece {
     public boolean isDestroyed() {
         return status == EquipmentStatus.DESRTOYED;
     }
+
+    public boolean isUncaptured() {
+        return status == EquipmentStatus.UNCAPTURED;
+    }
+
 
     public String getInfoAsString() {
         String typeEquipment = getAssocietedTypeName();

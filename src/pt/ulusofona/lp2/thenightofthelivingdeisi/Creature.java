@@ -1,13 +1,13 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
 public abstract class Creature extends BoardPiece {
-    private String name;
-    private int id;
-    private Team team;
-    private Coord coord;
-    private Equipment equipment;
-    private String image;
-    private int equipmentsDestroyed;
+    protected String name;
+    protected int id;
+    protected Team team;
+    protected Coord coord;
+    protected Equipment equipment;
+    protected String image;
+    protected int equipmentsDestroyed;
 
     public Creature(String name, int id, Team team, int row, int col, String image) {
         this.name = name;
@@ -102,29 +102,28 @@ public abstract class Creature extends BoardPiece {
     }
 
 
-    public boolean equip(Equipment equipment) {
-        if (team == Team.ALIVES && this.equipment == null) {
+    public void unquip() {
+        this.equipment = null;
+    }
+
+    public void equip(Equipment equipment) {
+        if (team == Team.ALIVES) {
             equipment.setAsCaptured();
+            equipment.changePosition(coord.getX(), coord.getY());
             this.equipment = equipment;
-            return true;
+            return;
         }
-        if (team == Team.ZOMBIES) {
-            equipmentsDestroyed++;
-            return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("Zombies não se equipam");
     }
 
     public void destroy(Equipment equipment) {
         equipment.setAsDestroyed();
-        incrementEquipmentsDestroyed();
-    }
-
-    public void incrementEquipmentsDestroyed() {
         equipmentsDestroyed++;
     }
 
+
     public boolean hasEquipment() {
+
         return equipment != null;
     }
 
@@ -135,6 +134,18 @@ public abstract class Creature extends BoardPiece {
 
     @Override
     public boolean moves() {
+        return true;
+    }
+
+    public boolean onlyMovesInTheMorning() {
+        return false;
+    }
+
+    public boolean onlyMovesAtNight() {
+        return false;
+    }
+
+    public boolean carriesEquipment() {
         return true;
     }
 

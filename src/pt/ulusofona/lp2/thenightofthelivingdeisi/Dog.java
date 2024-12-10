@@ -19,4 +19,9 @@ public class Dog extends Creature {
     public boolean movesObliqual(int distance) {
         return false;
     }
+
+    @Override
+    public void equip(Equipment equipment) {
+        throw new UnsupportedOperationException("Caes não apanham equipaentos");
+    }
 }

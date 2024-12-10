@@ -137,7 +137,11 @@ public class GameManager {
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
-        return gameSession.move(yO, xO, yD, xD); //Os elementos estao guardados em coluna-linha
+        try {
+            return gameSession.move(yO, xO, yD, xD); //Os elementos estao guardados em coluna-linha
+        } catch (UnsupportedOperationException exception) {
+            return false;
+        }
     }
 
     public boolean gameIsOver() {

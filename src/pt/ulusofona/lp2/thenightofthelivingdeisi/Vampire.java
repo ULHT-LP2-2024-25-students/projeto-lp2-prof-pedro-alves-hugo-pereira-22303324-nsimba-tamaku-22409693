@@ -19,4 +19,9 @@ public class Vampire extends Creature {
     public boolean movesObliqual(int distance) {
         return distance == 1;
     }
+
+    @Override
+    public boolean onlyMovesAtNight() {
+        return true;
+    }
 }

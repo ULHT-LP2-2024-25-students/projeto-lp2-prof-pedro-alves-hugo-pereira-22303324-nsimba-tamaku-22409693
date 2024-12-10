@@ -106,6 +106,10 @@ public class Board {
         return grid[coord.getX()][coord.getY()] == null;
     }
 
+    private void emptyCell(Coord coord) {
+        grid[coord.getX()][coord.getY()] = null;
+    }
+
     private Creature getCreatureByInfoString(String creatureInfo) {
         for (Creature creature : creatures) {
             if (creature.getInfoAsString().equals(creatureInfo)) {
@@ -185,7 +189,7 @@ public class Board {
         return Math.max(horizontalDistance, verticalDistance);
     }
 
-    public boolean isLegalMove(Coord origin, Coord dest, Creature creature) {
+    public boolean isLegalMove(Coord origin, Coord dest, Creature creature, int shift, boolean isDay) {
         int distance = getDistance(origin, dest);
         boolean creatureMovesObliqual = creature.movesObliqual(distance);
         boolean creatureMovesRectilinear = creature.movesRectilinear(distance);
@@ -193,61 +197,97 @@ public class Board {
         boolean creatureCanMoveRectilinear = canMoveRectilinear(origin, dest, distance);
         boolean creatureCanMoveObliqual = canMoveObliqual(origin, dest, distance);
 
+        if (!isInTheCorrectShift(origin, shift)) {
+            return false;
+        }
+
+        if ((creature.onlyMovesInTheMorning() && !isDay) || (creature.onlyMovesAtNight() && isDay)) {
+            return false;
+        }
+
         if (creatureMovesRectilinear && creatureCanMoveRectilinear) {
             return true;
         }
         return creatureMovesObliqual && creatureCanMoveObliqual;
     }
 
-
-    public boolean moveElement(int xO, int yO, int xD, int yD, int shift) {
-        Coord origin = new Coord(xO, yO);
-        Coord dest = new Coord(xD, yD);
-
-        if (positionOcupiedByCreature(dest)) {
-            return false;
-        }
-
-        if (shift == 20) { //Vez do humano
-            if (!positionOcupiedByCreature(origin, Team.ALIVES)) {
-                return false;
-            }
-            Creature human = (Creature) (grid[origin.getX()][origin.getY()]);
-            assert human != null; //Temos a certeza que nao é null mas verificamos na mesma
-
-            if (!isLegalMove(origin, dest, human)) {
-                return false;
-            }
-
-            if ((human.hasEquipment() && positionOcupiedByEquipment(dest))) {
-                return false;
-            }
-            if (!human.hasEquipment() && positionOcupiedByEquipment(dest)) {
-                Equipment equipment = (Equipment) (grid[dest.getX()][dest.getY()]);
-                assert equipment != null;
-                human.equip(equipment);
-            }
-            grid[xO][yO] = null;
-            human.changePosition(dest.getX(), dest.getY());
-            placePiece(dest, human);
+    private boolean isInTheCorrectShift(Coord origin, int shift) {
+        if (shift == 20 && positionOcupiedByCreature(origin, Team.ALIVES)) {
             return true;
         }
-        if (!positionOcupiedByCreature(origin, Team.ZOMBIES)) {
+        return shift == 10 && positionOcupiedByCreature(origin, Team.ZOMBIES);
+    }
+
+
+    public boolean moveElement(Coord origin, Coord dest, int shift, boolean isDay) throws UnsupportedOperationException {
+        if (!positionOcupiedByCreature(origin)) {
             return false;
         }
-        Creature zombie = (Creature) (grid[origin.getX()][origin.getY()]);
-        assert zombie != null;
-        if (!isLegalMove(origin, dest, zombie)) {
+
+        Creature creature = (Creature) grid[origin.getX()][origin.getY()];
+
+        if (!isLegalMove(origin, dest, creature, shift, isDay)) {
             return false;
         }
+
         if (positionOcupiedByEquipment(dest)) {
-            Equipment equipment = (Equipment) (grid[dest.getX()][dest.getY()]);
-            assert equipment != null;
-            zombie.destroy(equipment);
+            handleEquipmentInteraction(creature, origin, dest);
+        } else {
+            handleMovementWithoutEquipment(creature, origin, dest);
         }
-        grid[xO][yO] = null;
-        zombie.changePosition(dest.getX(), dest.getY());
-        placePiece(dest, zombie);
+
         return true;
     }
+
+    private void handleEquipmentInteraction(Creature creature, Coord origin, Coord dest) {
+        Equipment newEquipment = (Equipment) grid[dest.getX()][dest.getY()];
+
+        if (creature.getTeam() == Team.ALIVES) {
+            handleAliveTeamWithEquipment(creature, origin, dest, newEquipment);
+        } else {
+            creature.destroy(newEquipment);
+            placePiece(dest, creature);
+        }
+    }
+
+    private void handleAliveTeamWithEquipment(Creature creature, Coord origin, Coord dest, Equipment newEquipment) {
+        if (creature.hasEquipment()) {
+            Equipment oldEquipment = creature.getEquipment();
+            oldEquipment.setAsUncaptured();
+            creature.equip(newEquipment);
+            placePiece(dest, creature);
+            placePiece(origin, oldEquipment);
+        } else {
+            creature.equip(newEquipment);
+            emptyCell(origin);
+            placePiece(dest, creature);
+        }
+    }
+
+    private void handleMovementWithoutEquipment(Creature creature, Coord origin, Coord dest) {
+        if (creature.hasEquipment()) {
+            handleCreatureWithEquipment(creature, origin, dest);
+        } else if (creature.getTeam() == Team.ZOMBIES) {
+            placePiece(dest, creature);
+            emptyCell(origin);
+        } else {
+            placePiece(dest, creature);
+            emptyCell(origin);
+        }
+    }
+
+    private void handleCreatureWithEquipment(Creature creature, Coord origin, Coord dest) {
+        if (creature.carriesEquipment()) {
+            creature.changePosition(dest.getX(), dest.getY());
+            placePiece(dest, creature);
+            emptyCell(origin);
+        } else {
+            Equipment oldEquipment = creature.getEquipment();
+            oldEquipment.setAsUncaptured();
+            creature.unquip();
+            placePiece(dest, creature);
+            placePiece(origin, oldEquipment);
+        }
+    }
+
 }

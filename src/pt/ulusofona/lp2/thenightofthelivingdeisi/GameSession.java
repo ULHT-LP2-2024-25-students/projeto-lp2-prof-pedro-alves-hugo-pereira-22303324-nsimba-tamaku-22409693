@@ -15,7 +15,7 @@ public class GameSession {
     private GameSession() {
         turnCounter = 0;
         shift = 0;
-        isDay = false;
+        isDay = true;
     }
 
     public static GameSession getInstance() {
@@ -102,7 +102,9 @@ public class GameSession {
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
-        if (instance.board.moveElement(xO, yO, xD, yD, instance.shift)) {
+        Coord origin = new Coord(xO, yO);
+        Coord destination = new Coord(xD, yD);
+        if (instance.board.moveElement(origin, destination, instance.shift, instance.isDay)) {
             changeTurn();
             return true;
         }
