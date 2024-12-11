@@ -99,7 +99,7 @@ public abstract class Equipment extends BoardPiece {
 
     public String getInfoAsString() {
         String typeEquipment = getAssocietedTypeName();
-        return String.format("%d | %s @ (%d,%d)", id, typeEquipment, coord.getY(), coord.getX());
+        return String.format("%d | %s @ (%d, %d)", id, typeEquipment, coord.getY(), coord.getX());
     }
 
     @Override
