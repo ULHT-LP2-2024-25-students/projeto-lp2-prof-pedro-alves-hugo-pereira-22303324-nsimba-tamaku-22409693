@@ -76,7 +76,7 @@ public class GameManager {
 
             currentLine += 2;
             for (int i = 0; i < creatureCount; i++) {
-                currentLine += i;
+                currentLine ++;
                 creatures.add(parseCreature(reader.readLine(), currentLine));
             }
 
