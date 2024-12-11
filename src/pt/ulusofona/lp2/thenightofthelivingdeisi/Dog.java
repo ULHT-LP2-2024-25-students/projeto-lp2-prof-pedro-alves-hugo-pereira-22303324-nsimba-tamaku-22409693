@@ -24,4 +24,14 @@ public class Dog extends Creature {
     public void equip(Equipment equipment) {
         throw new UnsupportedOperationException("Caes não apanham equipaentos");
     }
+
+    @Override
+    public String getInfoAsString() {
+        int equipmentCounter = equipment == null ? 0 : 1;
+        return String.format("%s | %s | %s @ (%d, %d)",
+                getId(),
+                getCreatureTypeAsString(),
+                getName(),
+                coord.getY(), coord.getX());
+    }
 }
