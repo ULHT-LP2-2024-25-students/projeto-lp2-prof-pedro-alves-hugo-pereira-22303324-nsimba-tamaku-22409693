@@ -1,11 +1,11 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
 public abstract class Equipment extends BoardPiece {
-    private final int id;
-    private Coord coord;
-    private String image;
-    private EquipmentStatus status;
-    private EquipmentType type;
+    protected final int id;
+    protected Coord coord;
+    protected String image;
+    protected EquipmentStatus status;
+    protected EquipmentType type;
 
     public Equipment(int id, int row, int col, String image, EquipmentType type) {
         this.id = id;
