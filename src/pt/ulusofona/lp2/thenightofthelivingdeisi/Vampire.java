@@ -24,4 +24,17 @@ public class Vampire extends Creature {
     public boolean onlyMovesAtNight() {
         return true;
     }
+
+    @Override
+    public String getInfoAsString() {
+        int equipmentCounter = equipment == null ? 0 : 1;
+        return String.format("%s | %s | %s | %s%d @ (%d, %d)",
+                getId(),
+                getCreatureTypeAsString(),
+                getName(),
+                getCreatureSign(),
+                isHuman() ? equipmentCounter : equipmentsDestroyed,
+                coord.getY(), coord.getX());
+    }
+
 }
