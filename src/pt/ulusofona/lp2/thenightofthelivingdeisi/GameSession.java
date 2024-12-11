@@ -9,57 +9,66 @@ public class GameSession {
     int shift;
     boolean isDay;
 
+    private static GameSession instance;
 
-    public GameSession() {
+
+    private GameSession() {
         turnCounter = 0;
         shift = 0;
         isDay = true;
     }
 
-
-    public GameSession(int rows, int cols, ArrayList<Creature> creatures, ArrayList<Equipment> equipments, ArrayList<SafeHeavenDoor> safeHeavenDoors, int shift) {
-        this.shift = shift;
-        this.turnCounter = 0;
-        this.board = new Board(rows, cols, creatures, equipments, safeHeavenDoors);
-        this.assembleBoard();
+    public static GameSession getInstance() {
+        if (instance == null) {
+            instance = new GameSession();
+        }
+        return instance;
     }
 
+    public void setGame(int rows, int cols, ArrayList<Creature> creatures, ArrayList<Equipment> equipments, ArrayList<SafeHeavenDoor> safeHeavenDoors, int shift) {
+        if (instance != null) {
+            instance.shift = shift;
+            instance.turnCounter = 0;
+            instance.board = new Board(rows, cols, creatures, equipments, safeHeavenDoors);
+            instance.assembleBoard();
+        }
+    }
 
 
     public int getTurnCounter() {
-        return this.turnCounter;
+        return instance.turnCounter;
     }
 
     public boolean isDay() {
-        return this.isDay;
+        return instance.isDay;
     }
 
     public int getShift() {
-        return this.shift;
+        return instance.shift;
     }
 
     public void changeTurn() {
-        this.turnCounter++;
-        this.shift = this.shift == 10 ? 20 : 10;
-        if (this.turnCounter % 2 == 0) { //A cada duas jogas trocar o turno
-            this.isDay = !this.isDay;
+        instance.turnCounter++;
+        instance.shift = instance.shift == 10 ? 20 : 10;
+        if (instance.turnCounter % 2 == 0) { //A cada duas jogas trocar o turno
+            instance.isDay = !instance.isDay;
         }
     }
 
     public void assembleBoard() {
-        this.board.assemblePieces();
+        instance.board.assemblePieces();
     }
 
     public int[] getBoardSize() {
-        return new int[]{this.board.getRows(), this.board.getCols()};
+        return new int[]{instance.board.getRows(), instance.board.getCols()};
     }
 
     public String getSquareInfo(int row, int col) {
-        return this.board.getSquareInfo(new Coord(row, col));
+        return instance.board.getSquareInfo(new Coord(row, col));
     }
 
     public String[] getCreatureInfo(int id) {
-        String[] creatureInfo = this.board.getCreatureByID(id).getInfo();
+        String[] creatureInfo = instance.board.getCreatureByID(id).getInfo();
         if (Objects.equals(creatureInfo[6], "null")) {
             creatureInfo[6] = null;
         }
@@ -67,11 +76,11 @@ public class GameSession {
     }
 
     public String getCreatureInfoAsString(int id) {
-        return this.board.getCreatureByID(id).getInfoAsString();
+        return instance.board.getCreatureByID(id).getInfoAsString();
     }
 
     public String[] getEquipmentInfo(int id) {
-        Equipment equipment = this.board.getEquipmentByID(id);
+        Equipment equipment = instance.board.getEquipmentByID(id);
         String[] equipmentInfo = equipment.getInfo();
 
         if (Objects.equals(equipmentInfo[4], "null")) {
@@ -84,7 +93,7 @@ public class GameSession {
     }
 
     public boolean creatureHasEquipment(int id, int equipmentType) {
-        Creature creature = this.board.getCreatureByID(id);
+        Creature creature = instance.board.getCreatureByID(id);
         if (!creature.hasEquipment()) {
             return false;
         }
@@ -92,7 +101,7 @@ public class GameSession {
     }
 
     public String getEquipmentInfoAsString(int id) {
-        Equipment equipment = this.board.getEquipmentByID(id);
+        Equipment equipment = instance.board.getEquipmentByID(id);
 
         return equipment.isCaptured() || equipment.isDestroyed() ? null : equipment.getInfoAsString();
     }
@@ -100,7 +109,7 @@ public class GameSession {
     public boolean move(int xO, int yO, int xD, int yD) {
         Coord origin = new Coord(xO, yO);
         Coord destination = new Coord(xD, yD);
-        if (this.board.moveElement(origin, destination, this.shift, this.isDay)) {
+        if (instance.board.moveElement(origin, destination, instance.shift, instance.isDay)) {
             changeTurn();
             return true;
         }
@@ -110,15 +119,15 @@ public class GameSession {
     public ArrayList<String> getSurvivors() {
         ArrayList<String> survivorsInfo = new ArrayList<>();
         survivorsInfo.add("Nr. turnos termindos:");
-        survivorsInfo.add(this.turnCounter + "");
+        survivorsInfo.add(instance.turnCounter + "");
         survivorsInfo.add("");
         survivorsInfo.add("OS VIVOS");
-        for (Creature human : this.board.getHumans()) {
+        for (Creature human : instance.board.getHumans()) {
             survivorsInfo.add(String.format("%d %s", human.getId(), human.getName()));
         }
         survivorsInfo.add("");
         survivorsInfo.add("OS OUTROS");
-        for (Creature zombie : this.board.getZombies()) {
+        for (Creature zombie : instance.board.getZombies()) {
             survivorsInfo.add(String.format("%d %s", zombie.getId(), zombie.getName()));
         }
         survivorsInfo.add("-----");
@@ -126,6 +135,6 @@ public class GameSession {
     }
 
     public boolean gameIsOver() {
-        return this.turnCounter == 1200;
+        return instance.turnCounter == 1200;
     }
 }
