@@ -62,38 +62,42 @@ public class GameManager {
         return EquipmentFactory.getInstance().createEquipment(equipmentType, id, row, col, currentLine);
     }
 
-    public void loadGame(File file) throws FileNotFoundException, IOException, InvalidFileException {
+    public void loadGame(File file) throws FileNotFoundException,  InvalidFileException {
         ArrayList<Creature> creatures = new ArrayList<>();
         ArrayList<Equipment> equipments = new ArrayList<>();
         ArrayList<SafeHeavenDoor> safeHeavenDoors = new ArrayList<>();
         int currentLine = 1;
 
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        int[] dimensions = parseDimensions(reader.readLine(), currentLine);
-        int team = Integer.parseInt(reader.readLine());
-        int creatureCount = Integer.parseInt(reader.readLine());
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            int[] dimensions = parseDimensions(reader.readLine(), currentLine);
+            int team = Integer.parseInt(reader.readLine());
+            int creatureCount = Integer.parseInt(reader.readLine());
 
-        currentLine += 2;
-        for (int i = 0; i < creatureCount; i++) {
-            currentLine += i;
-            creatures.add(parseCreature(reader.readLine(), currentLine));
-        }
-
-        int equipmentCount = Integer.parseInt(reader.readLine());
-        for (int i = 0; i < equipmentCount; i++) {
-            currentLine += i;
-            equipments.add(parseEquipment(reader.readLine(), currentLine));
-        }
-
-        if (!equipments.isEmpty()) {
-            int safeHeavenDoorsCount = Integer.parseInt(reader.readLine());
-            for (int i = 0; i < safeHeavenDoorsCount; i++) {
+            currentLine += 2;
+            for (int i = 0; i < creatureCount; i++) {
                 currentLine += i;
-                safeHeavenDoors.add(parseSafeHeavenDoor(reader.readLine(), currentLine));
+                creatures.add(parseCreature(reader.readLine(), currentLine));
             }
-        }
 
-        gameSession.setGame(dimensions[0], dimensions[1], creatures, equipments, safeHeavenDoors, team);
+            int equipmentCount = Integer.parseInt(reader.readLine());
+            for (int i = 0; i < equipmentCount; i++) {
+                currentLine += i;
+                equipments.add(parseEquipment(reader.readLine(), currentLine));
+            }
+
+            if (!equipments.isEmpty()) {
+                int safeHeavenDoorsCount = Integer.parseInt(reader.readLine());
+                for (int i = 0; i < safeHeavenDoorsCount; i++) {
+                    currentLine += i;
+                    safeHeavenDoors.add(parseSafeHeavenDoor(reader.readLine(), currentLine));
+                }
+            }
+
+            gameSession.setGame(dimensions[0], dimensions[1], creatures, equipments, safeHeavenDoors, team);
+        } catch (IOException e) {
+            throw new FileNotFoundException();
+        }
     }
 
     public int[] getWorldSize() {
