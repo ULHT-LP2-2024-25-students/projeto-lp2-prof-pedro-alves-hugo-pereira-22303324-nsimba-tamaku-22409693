@@ -68,10 +68,10 @@ public abstract class Creature extends BoardPiece {
         return equipment;
     }
 
-    public void changePosition(int row, int col) {
-        this.coord = new Coord(row, col);
+    public void changePosition(Coord coord) {
+        this.coord.update(coord);
         if (hasEquipment()) {
-            equipment.changePosition(row, col);
+            equipment.changePosition(coord);
         }
     }
 
@@ -116,7 +116,7 @@ public abstract class Creature extends BoardPiece {
     public void equip(Equipment equipment) {
         if (team == Team.ALIVES) {
             equipment.setAsCaptured();
-            equipment.changePosition(coord.getX(), coord.getY());
+            equipment.changePosition(coord);
             this.equipment = equipment;
             return;
         }

@@ -262,6 +262,7 @@ public class Board {
         } else {
             creature.destroy(newEquipment);
             placePiece(dest, creature);
+            creature.changePosition(dest);
             emptyCell(origin);
         }
     }
@@ -273,10 +274,13 @@ public class Board {
             creature.equip(newEquipment);
             placePiece(dest, creature);
             placePiece(origin, oldEquipment);
+            creature.changePosition(dest);
+            oldEquipment.changePosition(origin);
         } else {
             creature.equip(newEquipment);
             emptyCell(origin);
             placePiece(dest, creature);
+            creature.changePosition(dest);
         }
     }
 
@@ -290,11 +294,12 @@ public class Board {
             placePiece(dest, creature);
             emptyCell(origin);
         }
+        creature.changePosition(dest);
     }
 
     private void handleCreatureWithEquipment(Creature creature, Coord origin, Coord dest) {
         if (creature.carriesEquipment()) {
-            creature.changePosition(dest.getX(), dest.getY());
+            creature.changePosition(dest);
             placePiece(dest, creature);
             emptyCell(origin);
         } else {
@@ -303,6 +308,7 @@ public class Board {
             creature.unquip();
             placePiece(dest, creature);
             placePiece(origin, oldEquipment);
+            oldEquipment.changePosition(origin);
         }
     }
 

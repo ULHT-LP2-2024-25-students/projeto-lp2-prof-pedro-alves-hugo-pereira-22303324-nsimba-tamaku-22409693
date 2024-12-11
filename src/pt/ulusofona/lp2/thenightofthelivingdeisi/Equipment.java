@@ -50,8 +50,8 @@ public abstract class Equipment extends BoardPiece {
         this.image = image;
     }
 
-    public void changePosition(int row, int col) {
-        coord = new Coord(row, col);
+    public void changePosition(Coord coord) {
+        this.coord.update(coord);
     }
 
     public boolean hasAmo() {

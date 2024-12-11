@@ -14,6 +14,11 @@ public class Coord {
         return y;
     }
 
+    public void update(Coord newCoord) {
+        x = newCoord.x;
+        y = newCoord.y;
+    }
+
     @Override
     public String toString() {
         return "Coord [x=" + x + ", y=" + y + "]";
