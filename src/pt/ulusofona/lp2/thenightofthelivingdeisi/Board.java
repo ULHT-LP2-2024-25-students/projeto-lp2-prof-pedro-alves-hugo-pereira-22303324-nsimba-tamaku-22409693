@@ -236,7 +236,7 @@ public class Board {
                 return false;
             }
             if (creatureTobeAttacked.isHuman() && !creature.hasEquipment()) {
-                creatureTobeAttacked.transformar();
+                creatureTobeAttacked.transform();
             }
             return true;
         }

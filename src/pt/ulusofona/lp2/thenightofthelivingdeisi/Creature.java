@@ -8,6 +8,7 @@ public abstract class Creature extends BoardPiece {
     protected Equipment equipment;
     protected String image;
     protected int equipmentsDestroyed;
+    protected boolean transformed = false;
 
     public Creature(String name, int id, Team team, int row, int col, String image) {
         this.name = name;
@@ -44,7 +45,8 @@ public abstract class Creature extends BoardPiece {
                 return "Humano";
             }
             case ZOMBIES -> {
-                return "Zombie";
+                String team = "Zombie";
+                return  transformed ? team + " (Transformado)" : team;
             }
             default -> {
                 return "";
@@ -75,9 +77,10 @@ public abstract class Creature extends BoardPiece {
         }
     }
 
-    public void transformar() {
+    public void transform() {
         if (isHuman()) {
             team = Team.ZOMBIES;
+            transformed = true;
         }
     }
 
