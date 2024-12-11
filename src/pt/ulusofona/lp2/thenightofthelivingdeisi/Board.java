@@ -255,11 +255,16 @@ public class Board {
             }
 
             if (creature.isHuman() && creature.hasEquipment()) {
-                if (creature.getEquipment().isDefensive()) {
+                Equipment equipment = creature.getEquipment();
+                if (equipment.isDefensive()) {
                     return false;
                 }
-                if (creature.getEquipment().hasAmo() && creature.getEquipment().isOfensive()) {
+                if (equipment.isOfensive() && !equipment.hasAmo()) {
+                    return false;
+                }
+                if (equipment.hasAmo() && equipment.isOfensive()) {
                     placePiece(dest, creature);
+                    creature.getEquipment().use();
                     creature.changePosition(dest);
                     emptyCell(origin);
                     return true;
