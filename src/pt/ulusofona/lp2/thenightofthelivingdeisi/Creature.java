@@ -104,8 +104,8 @@ public abstract class Creature extends BoardPiece {
                 getName(),
                 getCreatureSign(),
                 isHuman() ? equipmentCounter : equipmentsDestroyed,
-                coord.getY(), coord.getX()),
-                hasEquipment() ? " | " + equipment.getInfoAsString() : "";
+                coord.getY(), coord.getX(),
+                hasEquipment() ? " | " + equipment.getInfoAsString() : "");
     }
 
 
