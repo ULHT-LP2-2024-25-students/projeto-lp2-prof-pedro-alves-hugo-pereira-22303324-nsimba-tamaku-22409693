@@ -54,6 +54,14 @@ public abstract class Equipment extends BoardPiece {
         coord = new Coord(row, col);
     }
 
+    public boolean hasAmo() {
+        return true;
+    }
+
+    public void use() {
+
+    }
+
     public String[] getInfo() {
         String[] info = new String[5];
         info[0] = Integer.toString(id);

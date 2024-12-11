@@ -6,7 +6,7 @@ public class InvalidFileException extends Exception {
         this.lineWithError = lineWithError;
     }
 
-    int getLineWithError() {
+    public int getLineWithError() {
         return lineWithError;
     }
 }

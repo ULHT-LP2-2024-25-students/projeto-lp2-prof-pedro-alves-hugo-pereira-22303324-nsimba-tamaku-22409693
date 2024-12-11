@@ -75,6 +75,12 @@ public abstract class Creature extends BoardPiece {
         }
     }
 
+    public void transformar() {
+        if (isHuman()) {
+            team = Team.ZOMBIES;
+        }
+    }
+
     public String[] getInfo() {
         String[] info = new String[7];
         String teamAsString = getCreatureTeamAsString();

@@ -9,6 +9,7 @@ public class EquipmentFactory {
         }
         return instance;
     }
+
     private EquipmentFactory() {
 
     }

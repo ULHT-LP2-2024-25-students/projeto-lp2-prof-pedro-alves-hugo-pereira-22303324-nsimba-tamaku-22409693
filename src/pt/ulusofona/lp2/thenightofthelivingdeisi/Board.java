@@ -230,14 +230,29 @@ public class Board {
             return false;
         }
 
+        if (positionOcupiedByCreature(dest)) {
+            Creature creatureTobeAttacked = (Creature) grid[dest.getX()][dest.getY()];
+            if (creature.getTeam() == creatureTobeAttacked.getTeam()) {
+                return false;
+            }
+            if (creatureTobeAttacked.isHuman() && !creature.hasEquipment()) {
+                creatureTobeAttacked.transformar();
+            }
+            return true;
+        }
+
         if (positionOcupiedByEquipment(dest)) {
             handleEquipmentInteraction(creature, origin, dest);
         } else {
             handleMovementWithoutEquipment(creature, origin, dest);
         }
 
+
+
         return true;
     }
+
+
 
     private void handleEquipmentInteraction(Creature creature, Coord origin, Coord dest) {
         Equipment newEquipment = (Equipment) grid[dest.getX()][dest.getY()];
@@ -247,6 +262,7 @@ public class Board {
         } else {
             creature.destroy(newEquipment);
             placePiece(dest, creature);
+            emptyCell(origin);
         }
     }
 
