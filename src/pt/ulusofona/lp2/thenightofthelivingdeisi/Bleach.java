@@ -1,8 +1,11 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
-public class Bleach extends  Equipment{
+public class Bleach extends Equipment{
+    private double liters;
+
     public Bleach(int id,  int row, int col, String image) {
         super(id, row, col, image, EquipmentType.DEFENSIVE);
+        this.liters = 1.0;
     }
 
     @Override
@@ -13,5 +16,11 @@ public class Bleach extends  Equipment{
     @Override
     public int getAssocietedTypeNumber() {
         return 3;
+    }
+
+    @Override
+    public String getInfoAsString() {
+        String typeEquipment = getAssocietedTypeName();
+        return String.format("%d | %s @ (%d, %d) | %.1f litros", id, typeEquipment, coord.getY(), coord.getX(), liters);
     }
 }
