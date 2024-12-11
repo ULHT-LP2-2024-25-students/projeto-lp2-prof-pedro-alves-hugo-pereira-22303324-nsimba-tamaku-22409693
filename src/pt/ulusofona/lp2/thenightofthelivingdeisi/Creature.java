@@ -8,6 +8,7 @@ public abstract class Creature extends BoardPiece {
     protected Equipment equipment;
     protected String image;
     protected int equipmentsDestroyed;
+    protected int equipmentsCaptured;
     protected boolean transformed = false;
 
     public Creature(String name, int id, Team team, int row, int col, String image) {
@@ -17,6 +18,7 @@ public abstract class Creature extends BoardPiece {
         this.coord = new Coord(row, col);
         this.image = image;
         this.equipmentsDestroyed = 0;
+        this.equipmentsCaptured = 0;
     }
 
     public String getName() {
@@ -99,14 +101,13 @@ public abstract class Creature extends BoardPiece {
 
 
     public String getInfoAsString() {
-        int equipmentCounter = equipment == null ? 0 : 1;
         return String.format("%s | %s | %s | %s | %s%d @ (%d, %d)%s",
                 getId(),
                 getCreatureTypeAsString(),
                 getCreatureTeamAsString(),
                 getName(),
                 getCreatureSign(),
-                isHuman() ? equipmentCounter : equipmentsDestroyed,
+                isHuman() ? equipmentsCaptured : equipmentsDestroyed,
                 coord.getY(), coord.getX(),
                 hasEquipment() ? " | " + equipment.getInfoAsString() : "");
     }
@@ -120,6 +121,7 @@ public abstract class Creature extends BoardPiece {
         if (team == Team.ALIVES) {
             equipment.setAsCaptured();
             equipment.changePosition(coord);
+            equipmentsCaptured++;
             this.equipment = equipment;
             return;
         }
