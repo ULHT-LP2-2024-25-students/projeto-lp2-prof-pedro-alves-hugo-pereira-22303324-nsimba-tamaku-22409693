@@ -7,7 +7,7 @@ public class Shield extends Equipment{
 
     @Override
     public String getAssocietedTypeName() {
-        return "Escudo";
+        return "Escudo de madeira";
     }
 
     @Override
