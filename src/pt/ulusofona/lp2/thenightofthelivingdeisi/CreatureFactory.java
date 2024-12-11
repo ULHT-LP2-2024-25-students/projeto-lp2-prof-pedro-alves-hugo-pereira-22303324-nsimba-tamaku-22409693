@@ -15,9 +15,9 @@ public class CreatureFactory {
     }
 
     public Creature createCreature(int creatureType, String name, int id, Team team, int row, int col, int currentLine) throws InvalidFileException {
-        if ((creatureType == 3 && team == Team.ZOMBIES) || (creatureType == 4 && team == Team.ALIVES)) {
-            throw new InvalidFileException(currentLine);
-        }
+//        if ((creatureType == 3 && team == Team.ZOMBIES) || (creatureType == 4 && team == Team.ALIVES)) {
+//            throw new InvalidFileException(currentLine);
+//        }
         return switch (creatureType) {
             case 0 -> new Child(name, id, team, row, col, null);
             case 1 -> new Adult(name, id, team, row, col, null);
