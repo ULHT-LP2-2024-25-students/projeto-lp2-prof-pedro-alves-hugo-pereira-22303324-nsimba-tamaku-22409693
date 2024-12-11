@@ -5,8 +5,8 @@ public class Pistol extends Equipment{
     private int bullets;
 
     public Pistol(int id, int row, int col, String image) {
-        this.bullets = 3;
         super(id, row, col, image, EquipmentType.ONFESIVE);
+        this.bullets = 3;
     }
 
     @Override
