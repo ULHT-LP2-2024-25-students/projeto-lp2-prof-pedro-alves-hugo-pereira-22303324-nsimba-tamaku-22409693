@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameManager {
-    private final GameSession gameSession;
+    private GameSession gameSession;
 
     public GameManager() {
-        this.gameSession = GameSession.getInstance();
+        this.gameSession = new GameSession();
     }
 
     private int[] parseDimensions(String line, int currentLine) {
@@ -42,7 +42,14 @@ public class GameManager {
         } catch (Exception e) {
             throw new InvalidFileException(currentLine);
         }
-        return CreatureFactory.getInstance().createCreature(creatureType, name, id, team, row, col, currentLine);
+        return switch (creatureType) {
+            case 0 -> new Child(name, id, team, row, col, null);
+            case 1 -> new Adult(name, id, team, row, col, null);
+            case 2 -> new Eldery(name, id, team, row, col, null);
+            case 3 -> new Dog(name, id, row, col, null);
+            case 4 -> new Vampire(name, id, row, col, null);
+            default -> throw new InvalidFileException(currentLine);
+        };
     }
 
     private Equipment parseEquipment(String line, int currentLine) throws InvalidFileException {
@@ -59,10 +66,17 @@ public class GameManager {
         } catch (Exception e) {
             throw new InvalidFileException(currentLine);
         }
-        return EquipmentFactory.getInstance().createEquipment(equipmentType, id, row, col, currentLine);
+        return switch (equipmentType) {
+            case 0 -> new Shield(id, row, col, null);
+            case 1 -> new Sword(id, row, col, null);
+            case 2 -> new Pistol(id, row, col, null);
+            case 3 -> new Bleach(id, row, col, null);
+            default -> throw new InvalidFileException(currentLine);
+        };
     }
 
-    public void loadGame(File file) throws FileNotFoundException,  InvalidFileException {
+    public void loadGame(File file) throws FileNotFoundException, InvalidFileException {
+        this.gameSession = null;
         ArrayList<Creature> creatures = new ArrayList<>();
         ArrayList<Equipment> equipments = new ArrayList<>();
         ArrayList<SafeHeavenDoor> safeHeavenDoors = new ArrayList<>();
@@ -76,7 +90,7 @@ public class GameManager {
 
             currentLine += 2;
             for (int i = 0; i < creatureCount; i++) {
-                currentLine ++;
+                currentLine++;
                 creatures.add(parseCreature(reader.readLine(), currentLine));
             }
 
@@ -97,7 +111,7 @@ public class GameManager {
                 }
             }
 
-            gameSession.setGame(dimensions[0], dimensions[1], creatures, equipments, safeHeavenDoors, team);
+            gameSession = new GameSession(dimensions[0], dimensions[1], creatures, equipments, safeHeavenDoors, team);
         } catch (IOException e) {
             throw new FileNotFoundException();
         }
