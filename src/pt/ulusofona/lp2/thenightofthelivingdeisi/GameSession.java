@@ -86,7 +86,7 @@ public class GameSession {
         if (Objects.equals(equipmentInfo[4], "null")) {
             equipmentInfo[5] = null;
         }
-        if (equipment.isDestroyed()) {
+        if (equipment.isDestroyed() || equipment.isCaptured()) {
             return null;
         }
         return equipmentInfo;
