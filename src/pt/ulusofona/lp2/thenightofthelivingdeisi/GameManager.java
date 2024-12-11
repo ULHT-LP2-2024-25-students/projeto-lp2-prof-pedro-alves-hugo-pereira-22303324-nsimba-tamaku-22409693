@@ -76,7 +76,6 @@ public class GameManager {
     }
 
     public void loadGame(File file) throws FileNotFoundException, InvalidFileException {
-        this.gameSession = null;
         ArrayList<Creature> creatures = new ArrayList<>();
         ArrayList<Equipment> equipments = new ArrayList<>();
         ArrayList<SafeHeavenDoor> safeHeavenDoors = new ArrayList<>();
