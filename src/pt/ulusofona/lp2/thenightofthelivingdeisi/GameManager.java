@@ -87,10 +87,13 @@ public class GameManager {
             }
 
             if (!equipments.isEmpty()) {
-                int safeHeavenDoorsCount = Integer.parseInt(reader.readLine());
-                for (int i = 0; i < safeHeavenDoorsCount; i++) {
-                    currentLine += i;
-                    safeHeavenDoors.add(parseSafeHeavenDoor(reader.readLine(), currentLine));
+                String line = reader.readLine();
+                if (line != null) {
+                    int safeHeavenDoorsCount = Integer.parseInt(line);
+                    for (int i = 0; i < safeHeavenDoorsCount; i++) {
+                        currentLine += i;
+                        safeHeavenDoors.add(parseSafeHeavenDoor(reader.readLine(), currentLine));
+                    }
                 }
             }
 
