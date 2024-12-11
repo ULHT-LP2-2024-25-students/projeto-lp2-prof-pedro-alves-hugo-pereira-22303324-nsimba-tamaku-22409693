@@ -28,7 +28,7 @@ public class GameManager {
         int id = 0;
         Team team = null;
         int creatureType = 0;
-        String name = null;
+        String name = "";
         int col = 0;
         int row = 0;
         try {
