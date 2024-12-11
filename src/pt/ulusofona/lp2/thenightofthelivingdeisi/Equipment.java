@@ -92,10 +92,6 @@ public abstract class Equipment extends BoardPiece {
         return status == EquipmentStatus.DESRTOYED;
     }
 
-    public boolean isUncaptured() {
-        return status == EquipmentStatus.UNCAPTURED;
-    }
-
 
     public String getInfoAsString() {
         String typeEquipment = getAssocietedTypeName();

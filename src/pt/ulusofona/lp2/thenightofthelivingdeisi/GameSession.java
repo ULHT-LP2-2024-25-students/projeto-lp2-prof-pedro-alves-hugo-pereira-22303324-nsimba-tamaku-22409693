@@ -80,9 +80,14 @@ public class GameSession {
     }
 
     public String[] getEquipmentInfo(int id) {
-        String[] equipmentInfo = instance.board.getEquipmentByID(id).getInfo();
+        Equipment equipment = instance.board.getEquipmentByID(id);
+        String[] equipmentInfo = equipment.getInfo();
+
         if (Objects.equals(equipmentInfo[4], "null")) {
             equipmentInfo[5] = null;
+        }
+        if (equipment.isDestroyed()) {
+            return null;
         }
         return equipmentInfo;
     }
