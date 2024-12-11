@@ -19,4 +19,14 @@ public class Child extends Creature {
     public boolean movesObliqual(int distance) {
         return false;
     }
+
+    @Override
+    public void equip(Equipment equipment) {
+        if (equipment.isDefensive()) {
+            super.equip(equipment);
+        } else {
+            throw new UnsupportedOperationException(" As crianças vivas não podem apanhar equipamentos ofensivos");
+        }
+
+    }
 }

@@ -270,12 +270,6 @@ public class Board {
                     return true;
                 }
             }
-
-
-
-
-
-
         }
 
         if (positionOcupiedByEquipment(dest)) {
