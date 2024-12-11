@@ -7,7 +7,7 @@ public class Pistol extends Equipment{
 
     @Override
     public String getAssocietedTypeName() {
-        return "Pistola";
+        return "Pistola Walther PPK";
     }
 
     @Override

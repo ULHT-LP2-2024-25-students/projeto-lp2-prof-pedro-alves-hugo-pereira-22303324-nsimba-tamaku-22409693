@@ -7,7 +7,7 @@ public class Sword extends Equipment{
 
     @Override
     public String getAssocietedTypeName() {
-        return "Espada";
+        return "Espada samurai";
     }
 
     @Override
