@@ -14,4 +14,9 @@ public class Shield extends Equipment{
     public int getAssocietedTypeNumber() {
         return 0;
     }
+
+    @Override
+    public boolean hasAmo() {
+        return true;
+    }
 }

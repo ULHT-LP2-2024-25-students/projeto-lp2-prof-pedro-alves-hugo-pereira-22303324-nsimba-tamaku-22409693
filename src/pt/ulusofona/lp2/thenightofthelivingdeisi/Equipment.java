@@ -55,12 +55,21 @@ public abstract class Equipment extends BoardPiece {
     }
 
     public boolean hasAmo() {
-        return true;
+        return false;
     }
 
     public void use() {
 
     }
+
+    public boolean isDefensive() {
+        return type == EquipmentType.DEFENSIVE;
+    }
+
+    public boolean isOfensive() {
+        return type == EquipmentType.OFESIVE;
+    }
+
 
     public String[] getInfo() {
         String[] info = new String[5];

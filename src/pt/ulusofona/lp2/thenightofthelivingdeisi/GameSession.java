@@ -135,6 +135,6 @@ public class GameSession {
     }
 
     public boolean gameIsOver() {
-        return instance.turnCounter == 12;
+        return instance.turnCounter == 1200;
     }
 }

@@ -235,23 +235,55 @@ public class Board {
             if (creature.getTeam() == creatureTobeAttacked.getTeam()) {
                 return false;
             }
-            if (creatureTobeAttacked.isHuman() && !creature.hasEquipment()) {
-                creatureTobeAttacked.transform();
+
+            if (creature.isHuman() && !creature.hasEquipment()) {
+                return false;
             }
-            return true;
+
+            if (creatureTobeAttacked.isHuman() && !creatureTobeAttacked.hasEquipment()) {
+                creatureTobeAttacked.transform();
+                return true;
+            }
+
+            if (creatureTobeAttacked.isHuman() && creatureTobeAttacked.hasEquipment()) {
+                if (creatureTobeAttacked.getEquipment().hasAmo()) {
+                    creatureTobeAttacked.getEquipment().use();
+                } else {
+                    creatureTobeAttacked.transform();
+                }
+                return true;
+            }
+
+            if (creature.isHuman() && creature.hasEquipment()) {
+                if (creature.getEquipment().isDefensive()) {
+                    return false;
+                }
+                if (creature.getEquipment().hasAmo() && creature.getEquipment().isOfensive()) {
+                    placePiece(dest, creature);
+                    creature.changePosition(dest);
+                    emptyCell(origin);
+                    return true;
+                }
+            }
+
+
+
+
+
+
         }
 
         if (positionOcupiedByEquipment(dest)) {
             handleEquipmentInteraction(creature, origin, dest);
-        } else {
+            return true;
+        } else if (!positionOcupiedByEquipment(dest)) {
             handleMovementWithoutEquipment(creature, origin, dest);
+            return true;
         }
 
 
-
-        return true;
+        return false;
     }
-
 
 
     private void handleEquipmentInteraction(Creature creature, Coord origin, Coord dest) {
