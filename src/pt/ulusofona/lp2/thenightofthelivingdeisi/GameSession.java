@@ -122,7 +122,7 @@ public class GameSession {
 
     public ArrayList<String> getSurvivors() {
         ArrayList<String> survivorsInfo = new ArrayList<>();
-        survivorsInfo.add("Nr. de turnos terminados");
+        survivorsInfo.add("Nr. de turnos terminados:");
         survivorsInfo.add(instance.turnCounter + "");
         survivorsInfo.add("");
         survivorsInfo.add("OS VIVOS");
