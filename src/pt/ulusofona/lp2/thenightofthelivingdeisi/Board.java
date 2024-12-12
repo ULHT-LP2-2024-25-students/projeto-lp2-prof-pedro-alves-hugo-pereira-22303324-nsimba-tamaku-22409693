@@ -10,6 +10,8 @@ public class Board {
     private final ArrayList<Creature> creatures;
     private final ArrayList<Equipment> equipments;
     private final ArrayList<SafeHeavenDoor> safeHeavenDoors;
+    private int transformations = 0;
+    private int zombieKills = 0;
 
     public ArrayList<Integer> getCreatureIDsInSaveHeaven() {
         return creatureIDsInSaveHeaven;
@@ -270,16 +272,17 @@ public class Board {
 
             if (creatureTobeAttacked.isHuman() && !creatureTobeAttacked.hasEquipment()) {
                 creatureTobeAttacked.transform();
+                transformations++;
                 return true;
             }
 
             if (creatureTobeAttacked.isHuman() && creatureTobeAttacked.hasEquipment()) {
                 Equipment equipment = creatureTobeAttacked.getEquipment();
                 if (equipment.hasAmo()) {
-                    equipment.use();
+                    creatureTobeAttacked.useEquipment();
                 } else {
                     creatureTobeAttacked.transform();
-
+                    transformations++;
                 }
                 return true;
             }
@@ -294,9 +297,10 @@ public class Board {
                 }
                 if (equipment.hasAmo() && equipment.isOfensive()) {
                     placePiece(dest, creature);
-                    creature.getEquipment().use();
+                    creature.useEquipment();
                     creature.changePosition(dest);
                     emptyCell(origin);
+                    zombieKills++;
                     return true;
                 }
             }
@@ -313,7 +317,6 @@ public class Board {
 
         return false;
     }
-
 
     private void handleEquipmentInteraction(Creature creature, Coord origin, Coord dest) {
         Equipment newEquipment = (Equipment) grid[dest.getX()][dest.getY()];
@@ -373,4 +376,36 @@ public class Board {
         }
     }
 
+    public ArrayList<Creature> creaturesPlaying() { //returns the creatures that are not in SH, that means that they are all humans
+        ArrayList<Creature> activeCreatures = new ArrayList<>();
+        for (Creature creature : creatures) {
+            if(!creatureIDsInSaveHeaven.contains(creature.getId())) {
+                activeCreatures.add(creature);
+            }
+        }
+        return activeCreatures;
+    }
+
+
+    public boolean isOnlyOneTeamPlaying() {
+        ArrayList<Creature> humans = new ArrayList<>();
+        ArrayList<Creature> zombies = new ArrayList<>();
+        ArrayList<Creature> creaturesPlaying = creaturesPlaying();
+        for (Creature creature : creaturesPlaying) {
+            if (creature.isHuman()) {
+                humans.add(creature);
+            } else {
+                zombies.add(creature);
+            }
+        }
+        return humans.size() == creaturesPlaying.size() || creaturesPlaying.size() == zombies.size();
+    }
+
+    public int getZombieKills() {
+        return zombieKills;
+    }
+
+    public int getTransformations() {
+        return transformations;
+    }
 }

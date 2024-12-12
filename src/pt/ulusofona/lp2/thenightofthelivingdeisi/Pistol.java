@@ -32,8 +32,7 @@ public class Pistol extends Equipment {
 
     @Override
     public void use() {
-        if (bullets > 0) {
-            bullets--;
-        }
+        super.use();
+        bullets--;
     }
 }

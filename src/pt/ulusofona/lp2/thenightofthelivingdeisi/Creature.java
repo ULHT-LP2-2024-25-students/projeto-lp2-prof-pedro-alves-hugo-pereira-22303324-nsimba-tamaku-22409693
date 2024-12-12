@@ -182,6 +182,13 @@ public abstract class Creature extends BoardPiece {
         return true;
     }
 
+    public void useEquipment() {
+        if (!hasEquipment()) {
+            throw  new UnsupportedOperationException("Nao tem equipamento");
+        }
+        equipment.use();
+    }
+
     public abstract boolean movesRectilinear(int distance);
 
     public abstract boolean movesObliqual(int distance);

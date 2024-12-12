@@ -59,7 +59,9 @@ public abstract class Equipment extends BoardPiece {
     }
 
     public void use() {
-
+        if (!hasAmo()) {
+            throw new UnsupportedOperationException("Sem municoes");
+        }
     }
 
     public boolean isDefensive() {

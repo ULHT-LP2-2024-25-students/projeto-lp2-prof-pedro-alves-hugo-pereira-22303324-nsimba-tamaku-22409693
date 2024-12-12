@@ -139,6 +139,11 @@ public class GameSession {
     }
 
     public boolean gameIsOver() {
-        return instance.turnCounter == 1200;
+        if (turnCounter >= 8) {
+            if (instance.board.getTransformations() == 0 && instance.board.getZombieKills() == 0) {
+                return true;
+            }
+        }
+        return instance.board.isOnlyOneTeamPlaying();
     }
 }

@@ -26,6 +26,7 @@ public class Bleach extends Equipment{
 
     @Override
     public void use() {
+        super.use();
         if ((liters - 0.3) > 0) {
             liters -= 0.3;
         } else {
