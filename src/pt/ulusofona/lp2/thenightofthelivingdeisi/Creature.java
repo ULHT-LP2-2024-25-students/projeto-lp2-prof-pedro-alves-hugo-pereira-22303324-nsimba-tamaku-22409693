@@ -10,6 +10,7 @@ public abstract class Creature extends BoardPiece {
     protected int equipmentsDestroyed;
     protected int equipmentsCaptured;
     protected boolean transformed = false;
+    protected boolean safe = false;
 
     public Creature(String name, int id, Team team, int row, int col, String image) {
         this.name = name;
@@ -79,10 +80,22 @@ public abstract class Creature extends BoardPiece {
         }
     }
 
+    public void save() {
+        safe = true;
+    }
+
+    public boolean isSafe() {
+        return safe;
+    }
+
     public void transform() {
         if (isHuman()) {
             team = Team.ZOMBIES;
             transformed = true;
+            if (hasEquipment()) {
+                destroy(equipment);
+                unquip();
+            }
         }
     }
 
@@ -93,8 +106,8 @@ public abstract class Creature extends BoardPiece {
         info[1] = getCreatureTypeAsString();
         info[2] = teamAsString;
         info[3] = getName();
-        info[4] = String.valueOf(coord.getY());
-        info[5] = String.valueOf(coord.getX());
+        info[4] = safe ? null : String.valueOf(coord.getY());
+        info[5] = safe ? null : String.valueOf(coord.getX());
         info[6] = String.valueOf(getImage());
         return info;
     }

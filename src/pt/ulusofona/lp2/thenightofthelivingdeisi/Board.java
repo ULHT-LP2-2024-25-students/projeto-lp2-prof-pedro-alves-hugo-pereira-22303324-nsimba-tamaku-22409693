@@ -253,6 +253,7 @@ public class Board {
 
         if (positionOcupiedBySafeHeavenDoor(dest)) {
             putCreatureInSaveHeaven(creature);
+            creature.save();
             emptyCell(origin);
             return true;
         }
@@ -278,8 +279,7 @@ public class Board {
                     equipment.use();
                 } else {
                     creatureTobeAttacked.transform();
-                    creatureTobeAttacked.unquip();
-                    creature.destroy(equipment);
+
                 }
                 return true;
             }
