@@ -83,10 +83,6 @@ public abstract class Creature extends BoardPiece {
         if (isHuman()) {
             team = Team.ZOMBIES;
             transformed = true;
-            if (hasEquipment()) {
-                equipment.setAsDestroyed();
-                unquip();
-            }
         }
     }
 

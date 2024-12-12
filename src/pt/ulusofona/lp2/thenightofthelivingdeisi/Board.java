@@ -246,10 +246,13 @@ public class Board {
             }
 
             if (creatureTobeAttacked.isHuman() && creatureTobeAttacked.hasEquipment()) {
-                if (creatureTobeAttacked.getEquipment().hasAmo()) {
-                    creatureTobeAttacked.getEquipment().use();
+                Equipment equipment = creatureTobeAttacked.getEquipment();
+                if (equipment.hasAmo()) {
+                    equipment.use();
                 } else {
                     creatureTobeAttacked.transform();
+                    creatureTobeAttacked.unquip();
+                    creature.destroy(equipment);
                 }
                 return true;
             }
