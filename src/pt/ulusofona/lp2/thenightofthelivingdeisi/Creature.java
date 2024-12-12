@@ -49,7 +49,7 @@ public abstract class Creature extends BoardPiece {
             }
             case ZOMBIES -> {
                 String team = "Zombie";
-                return  transformed ? team + " (Transformado)" : team;
+                return transformed ? team + " (Transformado)" : team;
             }
             default -> {
                 return "";
@@ -114,6 +114,14 @@ public abstract class Creature extends BoardPiece {
 
 
     public String getInfoAsString() {
+        if (isSafe()) {
+            return String.format("%s | %s | %s | %s | +%d @ Safe Haven",
+                    getId(),
+                    getCreatureTypeAsString(),
+                    getCreatureTeamAsString(),
+                    getName(),
+                    isHuman() ? equipmentsCaptured : equipmentsDestroyed);
+        }
         return String.format("%s | %s | %s | %s | %s%d @ (%d, %d)%s",
                 getId(),
                 getCreatureTypeAsString(),

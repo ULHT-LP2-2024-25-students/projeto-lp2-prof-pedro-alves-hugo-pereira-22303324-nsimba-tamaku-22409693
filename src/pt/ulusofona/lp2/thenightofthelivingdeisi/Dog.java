@@ -27,7 +27,12 @@ public class Dog extends Creature {
 
     @Override
     public String getInfoAsString() {
-        int equipmentCounter = equipment == null ? 0 : 1;
+        if (isSafe()) {
+            return String.format("%s | %s | %s @ Safe Haven",
+                    getId(),
+                    getCreatureTypeAsString(),
+                    getName());
+        }
         return String.format("%s | %s | %s @ (%d, %d)",
                 getId(),
                 getCreatureTypeAsString(),
