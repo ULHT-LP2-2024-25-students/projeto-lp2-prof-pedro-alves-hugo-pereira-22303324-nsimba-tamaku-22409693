@@ -376,7 +376,7 @@ public class Board {
         }
     }
 
-    public ArrayList<Creature> creaturesPlaying() { //returns the creatures that are not in SH, that means that they are all humans
+    public ArrayList<Creature> creaturesPlaying() {
         ArrayList<Creature> activeCreatures = new ArrayList<>();
         for (Creature creature : creatures) {
             if(!creatureIDsInSaveHeaven.contains(creature.getId())) {
