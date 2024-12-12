@@ -12,4 +12,8 @@ public abstract class BoardPiece {
 
     public abstract  boolean moves();
 
+    public boolean leadsToSaveHeaven() {
+        return false;
+    }
+
 }

@@ -19,4 +19,9 @@ public class SafeHeavenDoor extends BoardPiece{
     public Coord getCoord() {
         return this.coord;
     }
+
+    @Override
+    public boolean leadsToSaveHeaven() {
+        return true;
+    }
 }

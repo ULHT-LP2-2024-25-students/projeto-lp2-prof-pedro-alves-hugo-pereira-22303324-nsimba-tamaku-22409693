@@ -116,6 +116,10 @@ public class GameSession {
         return false;
     }
 
+    public ArrayList<Integer> getCreatureIDsInSaveHeaven() {
+        return instance.board.getCreatureIDsInSaveHeaven();
+    }
+
     public ArrayList<String> getSurvivors() {
         ArrayList<String> survivorsInfo = new ArrayList<>();
         survivorsInfo.add("Nr. turnos termindos:");

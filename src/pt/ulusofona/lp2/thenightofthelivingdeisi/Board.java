@@ -11,6 +11,12 @@ public class Board {
     private final ArrayList<Equipment> equipments;
     private final ArrayList<SafeHeavenDoor> safeHeavenDoors;
 
+    public ArrayList<Integer> getCreatureIDsInSaveHeaven() {
+        return creatureIDsInSaveHeaven;
+    }
+
+    private final ArrayList<Integer> creatureIDsInSaveHeaven = new ArrayList<>();
+
     public Board(int rows, int cols, ArrayList<Creature> creatures, ArrayList<Equipment> equipments, ArrayList<SafeHeavenDoor> safeHeavenDoors) {
         this.rows = rows;
         this.cols = cols;
@@ -92,6 +98,21 @@ public class Board {
         }
         Creature creature = (Creature) grid[coord.getX()][coord.getY()];
         return creature.getTeam() == team;
+    }
+
+    private boolean positionOcupiedBySafeHeavenDoor(Coord coord) { //Verifica se a posicao esta ocupada pela criatura especificada
+        if (positionIsEmpty(coord)) {
+            return false;
+        }
+        BoardPiece boardPiece = grid[coord.getX()][coord.getY()];
+        return boardPiece.leadsToSaveHeaven();
+    }
+
+    private void putCreatureInSaveHeaven(Creature creature) {
+        if (!creature.isHuman()) {
+            throw new UnsupportedOperationException("Zombies nao entram no safe heaven");
+        }
+        creatureIDsInSaveHeaven.add(creature.getId());
     }
 
     private boolean positionOcupiedByEquipment(Coord coord, EquipmentType equipmentType) {
@@ -228,6 +249,12 @@ public class Board {
 
         if (!isLegalMove(origin, dest, creature, shift, isDay)) {
             return false;
+        }
+
+        if (positionOcupiedBySafeHeavenDoor(dest)) {
+            putCreatureInSaveHeaven(creature);
+            emptyCell(origin);
+            return true;
         }
 
         if (positionOcupiedByCreature(dest)) {

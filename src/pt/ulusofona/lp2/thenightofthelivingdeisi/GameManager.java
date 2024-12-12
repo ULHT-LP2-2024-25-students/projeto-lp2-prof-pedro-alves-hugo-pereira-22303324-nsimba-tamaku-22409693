@@ -227,8 +227,7 @@ public class GameManager {
     }
 
     public List<Integer> getIdsInSafeHaven() {
-        List<Integer> ids = new ArrayList<>();
-        return ids;
+        return gameSession.getCreatureIDsInSaveHeaven();
     }
 
 
