@@ -25,6 +25,10 @@ public class GameSession {
         return instance;
     }
 
+    public static void resetInstance() {
+        instance = new GameSession();
+    }
+
     public void setGame(int rows, int cols, ArrayList<Creature> creatures, ArrayList<Equipment> equipments, ArrayList<SafeHeavenDoor> safeHeavenDoors, int shift) {
         if (instance != null) {
             instance.shift = shift;
