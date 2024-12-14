@@ -395,9 +395,16 @@ public class Board {
 
     public ArrayList<Creature> creaturesPlaying() {
         ArrayList<Creature> activeCreatures = new ArrayList<>();
-        for (Creature creature : creatures) {
-            if(!creatureIDsInSaveHeaven.contains(creature.getId())) {
-                activeCreatures.add(creature);
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid.length; j++) {
+                BoardPiece boardPiece = grid[i][j];
+                if (positionIsEmpty(new Coord(i, j))) {
+                    continue;
+                }
+                if (boardPiece.moves()) {
+                    Creature creature = (Creature) boardPiece;
+                    activeCreatures.add(creature);
+                }
             }
         }
         return activeCreatures;

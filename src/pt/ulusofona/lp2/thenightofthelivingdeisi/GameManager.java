@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameManager {
-    private final GameSession gameSession;
+    private GameSession gameSession;
 
     public GameManager() {
         this.gameSession = GameSession.getInstance();
@@ -64,6 +64,8 @@ public class GameManager {
 
     public void loadGame(File file) throws FileNotFoundException, InvalidFileException {
         GameSession.resetInstance();
+        this.gameSession = null;
+        this.gameSession = GameSession.getInstance();
         ArrayList<Creature> creatures = new ArrayList<>();
         ArrayList<Equipment> equipments = new ArrayList<>();
         ArrayList<SafeHeavenDoor> safeHeavenDoors = new ArrayList<>();
