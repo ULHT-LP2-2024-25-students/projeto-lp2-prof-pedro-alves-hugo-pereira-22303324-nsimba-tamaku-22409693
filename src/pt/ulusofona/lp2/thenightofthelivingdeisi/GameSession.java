@@ -81,7 +81,7 @@ public class GameSession {
 
     public String getCreatureInfoAsString(int id) {
         Creature creature = instance.board.getCreatureByID(id);
-        return creature != null ? creature.getInfoAsString() : "";
+        return creature != null ? creature.getInfoAsString() : null;
     }
 
     public String[] getEquipmentInfo(int id) {
