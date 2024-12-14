@@ -26,6 +26,7 @@ public class GameSession {
     }
 
     public static void resetInstance() {
+        instance = null;
         instance = new GameSession();
     }
 
