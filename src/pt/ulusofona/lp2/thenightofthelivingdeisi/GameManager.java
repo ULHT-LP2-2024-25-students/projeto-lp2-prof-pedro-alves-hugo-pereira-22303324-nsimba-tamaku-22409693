@@ -62,7 +62,7 @@ public class GameManager {
         return EquipmentFactory.getInstance().createEquipment(equipmentType, id, row, col, currentLine);
     }
 
-    public void loadGame(File file) throws FileNotFoundException,  InvalidFileException {
+    public void loadGame(File file) throws FileNotFoundException, InvalidFileException {
 //        GameSession.resetInstance();
         ArrayList<Creature> creatures = new ArrayList<>();
         ArrayList<Equipment> equipments = new ArrayList<>();
@@ -77,7 +77,7 @@ public class GameManager {
 
             currentLine += 2;
             for (int i = 0; i < creatureCount; i++) {
-                currentLine ++;
+                currentLine++;
                 creatures.add(parseCreature(reader.readLine(), currentLine));
             }
 
@@ -121,7 +121,11 @@ public class GameManager {
     }
 
     public String getSquareInfo(int x, int y) {
-        return gameSession.getSquareInfo(y, x);
+        try {
+            return gameSession.getSquareInfo(y, x);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public String[] getCreatureInfo(int id) {

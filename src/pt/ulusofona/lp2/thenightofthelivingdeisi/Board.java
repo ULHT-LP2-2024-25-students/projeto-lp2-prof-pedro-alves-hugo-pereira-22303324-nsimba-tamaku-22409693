@@ -126,6 +126,9 @@ public class Board {
     }
 
     private boolean positionIsEmpty(Coord coord) {
+        if (coordIsOutOfBounds(coord)) {
+            throw new IndexOutOfBoundsException("Coord is out of bounds");
+        }
         return grid[coord.getX()][coord.getY()] == null;
     }
 
