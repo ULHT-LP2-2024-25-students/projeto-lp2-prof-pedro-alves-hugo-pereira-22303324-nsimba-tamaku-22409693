@@ -16,6 +16,7 @@ public class GameSession {
         turnCounter = 0;
         shift = 0;
         isDay = true;
+        board = null;
     }
 
     public static GameSession getInstance() {
@@ -26,6 +27,9 @@ public class GameSession {
     }
 
     public static void resetInstance() {
+        if (instance.board != null) {
+            instance.board.reset();
+        }
         instance = null;
         instance = new GameSession();
     }

@@ -13,6 +13,20 @@ public class Board {
     private int transformations = 0;
     private int zombieKills = 0;
 
+
+    public void reset() {
+        this.rows = 0;
+        this.cols = 0;
+        this.grid = null;
+        this.creatures.clear();
+        this.equipments.clear();
+        this.safeHeavenDoors.clear();
+        this.creatureIDsInSaveHeaven.clear();
+        this.transformations = 0;
+        this.zombieKills = 0;
+    }
+
+
     public ArrayList<Integer> getCreatureIDsInSaveHeaven() {
         return creatureIDsInSaveHeaven;
     }

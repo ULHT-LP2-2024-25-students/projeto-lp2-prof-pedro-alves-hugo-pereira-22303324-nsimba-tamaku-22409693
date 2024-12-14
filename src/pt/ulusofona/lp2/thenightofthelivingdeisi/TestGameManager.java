@@ -19,15 +19,23 @@ public class TestGameManager {
 //        Assertions.assertTrue(carregou);
 //    }
 
+    GameManager gameManager = new GameManager();
 
+    @Test
+    public void testDeveLerComSucessoUmFicheiroComCaoZombie() throws InvalidFileException, IOException {
+        File file = new File("./test-files/7x7_v2.txt");
+        Assertions.assertTrue(file.exists());
+        gameManager.loadGame(file);
+        Assertions.assertTrue(true);
+    }
     @Test
     public void testDeveLerComSucessoUmFicheiro7X7() throws InvalidFileException, IOException {
         File file = new File("./test-files/7x7.txt");
         Assertions.assertTrue(file.exists());
-        GameManager gameManager = new GameManager();
         gameManager.loadGame(file);
         Assertions.assertTrue(true);
     }
+
 
 //
 //    @Test
