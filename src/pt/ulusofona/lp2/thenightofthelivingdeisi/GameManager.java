@@ -124,7 +124,7 @@ public class GameManager {
         try {
             return gameSession.getSquareInfo(y, x);
         } catch (Exception e) {
-            return "";
+            return null;
         }
     }
 
