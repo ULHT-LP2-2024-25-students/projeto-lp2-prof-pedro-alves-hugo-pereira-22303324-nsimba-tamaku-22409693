@@ -152,7 +152,7 @@ public class Board {
     }
 
     public String getSquareInfo(Coord coord) {
-        if (positionIsEmpty(coord)) {
+        if (positionIsEmpty(coord) || coordIsOutOfBounds(coord)) {
             return "";
         }
         BoardPiece boardPiece = grid[coord.getX()][coord.getY()];
@@ -181,7 +181,7 @@ public class Board {
     /* Validacoes */
 
     public boolean coordIsOutOfBounds(Coord coord) {
-        return coord.getX() >= rows || coord.getY() >= cols;
+        return coord.getX() >= rows || coord.getY() >= cols || coord.getX() < 0 || coord.getY() < 0;
     }
 
     public boolean canMoveRectilinear(Coord origin, Coord destination, int distance) {
