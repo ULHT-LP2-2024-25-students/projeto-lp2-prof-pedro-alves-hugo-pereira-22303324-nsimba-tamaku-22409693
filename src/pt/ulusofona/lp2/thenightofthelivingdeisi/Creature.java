@@ -4,6 +4,7 @@ public abstract class Creature extends BoardPiece {
     protected String name;
     protected int id;
     protected Team team;
+    protected CreatureStatus status;
     protected Coord coord;
     protected Equipment equipment;
     protected String image;
@@ -20,6 +21,15 @@ public abstract class Creature extends BoardPiece {
         this.image = image;
         this.equipmentsDestroyed = 0;
         this.equipmentsCaptured = 0;
+        this.status = CreatureStatus.ALIVE;
+    }
+
+    public boolean isAlive() {
+        return status == CreatureStatus.ALIVE;
+    }
+
+    public void die() {
+        this.status = CreatureStatus.DEAD;
     }
 
     public String getName() {

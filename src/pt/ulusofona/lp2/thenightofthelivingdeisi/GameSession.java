@@ -142,7 +142,9 @@ public class GameSession {
         survivorsInfo.add("");
         survivorsInfo.add("OS OUTROS");
         for (Creature zombie : instance.board.getZombies()) {
-            survivorsInfo.add(String.format("%d (antigamente conhecido como %s)", zombie.getId(), zombie.getName()));
+            if (zombie.isAlive()) {
+                survivorsInfo.add(String.format("%d (antigamente conhecido como %s)", zombie.getId(), zombie.getName()));
+            }
         }
         survivorsInfo.add("-----");
         return survivorsInfo;
