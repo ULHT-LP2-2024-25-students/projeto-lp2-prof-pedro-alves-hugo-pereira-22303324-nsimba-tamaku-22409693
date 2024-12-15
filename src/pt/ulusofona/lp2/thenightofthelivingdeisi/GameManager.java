@@ -51,13 +51,13 @@ public class GameManager {
         int col = 0;
         int row = 0;
         try {
-            String[] parts = line.substring(1).split(":");
+            String[] parts = line.split(":");
             id = Integer.parseInt(parts[0].trim()) * -1;
             equipmentType = Integer.parseInt(parts[1].trim());
             col = Integer.parseInt(parts[2].trim());
             row = Integer.parseInt(parts[3].trim());
         } catch (Exception e) {
-            throw e;
+            throw new InvalidFileException(currentLine);
         }
         return EquipmentFactory.getInstance().createEquipment(equipmentType, id, row, col, currentLine);
     }
