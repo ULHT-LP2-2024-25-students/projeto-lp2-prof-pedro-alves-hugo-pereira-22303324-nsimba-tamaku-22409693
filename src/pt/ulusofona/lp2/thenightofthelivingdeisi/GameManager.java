@@ -52,7 +52,10 @@ public class GameManager {
         int row = 0;
         try {
             String[] parts = line.split(":");
-            id = Integer.parseInt(parts[0].trim()) * -1;
+            id = Integer.parseInt(parts[0].trim());
+            if (id > 0) {
+                id *= -1;
+            }
             equipmentType = Integer.parseInt(parts[1].trim());
             col = Integer.parseInt(parts[2].trim());
             row = Integer.parseInt(parts[3].trim());
