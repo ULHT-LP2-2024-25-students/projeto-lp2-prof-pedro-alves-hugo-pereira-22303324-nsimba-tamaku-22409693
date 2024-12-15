@@ -53,9 +53,9 @@ public class GameManager {
         try {
             String[] parts = line.split(":");
             id = Integer.parseInt(parts[0].trim());
-            if (id > 0) {
-                id *= -1;
-            }
+//            if (id > 0 && !line.contains("-")) {
+//                id *= -1;
+//            }
             equipmentType = Integer.parseInt(parts[1].trim());
             col = Integer.parseInt(parts[2].trim());
             row = Integer.parseInt(parts[3].trim());
