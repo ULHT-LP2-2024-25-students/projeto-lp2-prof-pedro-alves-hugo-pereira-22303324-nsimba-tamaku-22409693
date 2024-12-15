@@ -396,8 +396,8 @@ public class Board {
 
     public ArrayList<Creature> creaturesPlaying() {
         ArrayList<Creature> activeCreatures = new ArrayList<>();
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid.length; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 BoardPiece boardPiece = grid[i][j];
                 if (positionIsEmpty(new Coord(i, j))) {
                     continue;
