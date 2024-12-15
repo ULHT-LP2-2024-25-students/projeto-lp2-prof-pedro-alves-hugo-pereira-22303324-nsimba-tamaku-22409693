@@ -317,7 +317,7 @@ public class Board {
                     creature.useEquipment();
                     creature.changePosition(dest);
                     emptyCell(origin);
-                    creature.die();
+                    creatureTobeAttacked.die();
                     zombieKills++;
                     return true;
                 }

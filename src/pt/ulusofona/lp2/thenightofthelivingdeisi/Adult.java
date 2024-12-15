@@ -19,6 +19,4 @@ public class Adult extends Creature{
     public boolean movesObliqual(int distance) {
         return distance >= 1 && distance <= 2;
     }
-
-
 }

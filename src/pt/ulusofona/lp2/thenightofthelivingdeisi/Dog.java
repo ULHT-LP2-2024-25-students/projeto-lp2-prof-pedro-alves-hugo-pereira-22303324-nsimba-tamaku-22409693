@@ -22,7 +22,7 @@ public class Dog extends Creature {
 
     @Override
     public void equip(Equipment equipment) {
-        throw new UnsupportedOperationException("Caes não apanham equipaentos");
+        throw new UnsupportedOperationException("Caes não apanham equipamentos");
     }
 
     @Override
