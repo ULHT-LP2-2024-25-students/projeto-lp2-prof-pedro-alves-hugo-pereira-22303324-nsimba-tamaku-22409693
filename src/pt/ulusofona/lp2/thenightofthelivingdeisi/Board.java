@@ -287,6 +287,10 @@ public class Board {
                 return false;
             }
 
+            if (creatureTobeAttacked.isHuman() && creatureTobeAttacked.isImmune()) { //Ataque sobre o cao
+                return false;
+            }
+
             if (creatureTobeAttacked.isHuman() && !creatureTobeAttacked.hasEquipment()) {
                 creatureTobeAttacked.transform();
                 transformations++;

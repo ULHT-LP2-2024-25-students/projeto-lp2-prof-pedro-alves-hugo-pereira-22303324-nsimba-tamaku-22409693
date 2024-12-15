@@ -12,6 +12,7 @@ public abstract class Creature extends BoardPiece {
     protected int equipmentsCaptured;
     protected boolean transformed = false;
     protected boolean safe = false;
+    protected boolean immune = false;
 
     public Creature(String name, int id, Team team, int row, int col, String image) {
         this.name = name;
@@ -47,6 +48,10 @@ public abstract class Creature extends BoardPiece {
 
     public Coord getCoord() {
         return this.coord;
+    }
+
+    public boolean isImmune() {
+        return immune;
     }
 
     public abstract String getCreatureTypeAsString();
