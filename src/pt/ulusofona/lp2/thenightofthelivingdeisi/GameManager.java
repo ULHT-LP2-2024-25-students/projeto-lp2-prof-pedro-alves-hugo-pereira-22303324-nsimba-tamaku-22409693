@@ -57,7 +57,7 @@ public class GameManager {
             col = Integer.parseInt(parts[2].trim());
             row = Integer.parseInt(parts[3].trim());
         } catch (Exception e) {
-            throw new InvalidFileException(currentLine);
+            throw e;
         }
         return EquipmentFactory.getInstance().createEquipment(equipmentType, id, row, col, currentLine);
     }
