@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
@@ -37,15 +38,29 @@ public class TestGameManager {
     }
 
 
-//
-//    @Test
-//    public void testDeveLerSemSucessoUmFicheiro5X5() {
-//        File file = new File("./test-files/5x5_com_erro.txt");
-//        Assertions.assertTrue(file.exists());
-//        GameManager gameManager = new GameManager();
-//        boolean carregou = gameManager.loadGame(file);
-//        Assertions.assertFalse(carregou);
-//    }
+
+    @Test
+    public void testDeveLancarExcessaoAoLerCaoZombie() throws FileNotFoundException {
+        File file = new File("./test-files/cao_zombie.txt");
+        Assertions.assertTrue(file.exists());
+
+        GameManager gameManager = new GameManager();
+
+        // Verifica se a exceção InvalidFileException é lançada ao carregar o ficheiro
+        Assertions.assertThrows(InvalidFileException.class, () -> gameManager.loadGame(file));
+    }
+
+    @Test
+    public void testDeveLancarExcessaoAoLerVampiroHumano() throws FileNotFoundException {
+        File file = new File("./test-files/vampiro_humano.txt");
+        Assertions.assertTrue(file.exists());
+
+        GameManager gameManager = new GameManager();
+
+        // Verifica se a exceção InvalidFileException é lançada ao carregar o ficheiro
+        Assertions.assertThrows(InvalidFileException.class, () -> gameManager.loadGame(file));
+    }
+
 //
 //    @Test
 //    public void testDeveMoverUmHumanoComSucesso() {
