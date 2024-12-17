@@ -170,7 +170,7 @@ public class Board {
 
     public String getSquareInfo(Coord coord) {
         if (positionIsEmpty(coord) || coordIsOutOfBounds(coord)) {
-            return null;
+            return "";
         }
         BoardPiece boardPiece = grid[coord.getX()][coord.getY()];
         return boardPiece.getResumedInfo();
