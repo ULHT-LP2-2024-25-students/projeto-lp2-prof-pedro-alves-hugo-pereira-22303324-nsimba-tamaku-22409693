@@ -4,7 +4,7 @@ Neste projeto/jogo decidimos separar ao máximo as resposabilidades das entidade
 
 ## Diagrama UML
 
-![](diagrama.png?raw=true "Diagrama UML")
+![](diagrama.PNG?raw=true "Diagrama UML")
 
 ## Entidades do projeto
 
