@@ -210,7 +210,7 @@ public class TestGameManager {
         gameManager.move(1, 1, 1, 0); // Zombie move-se
         gameManager.move(4, 3, 3, 2); // humano move-se
         gameManager.move(1, 0, 1, 1); // Zombie move-se
-        Assertions.assertEquals(gameManager.getCreatureInfoAsString(8), "8 | Idoso | Humano | James Bond | +1 @ (4, 4) | -4 | Lixívia @ (4, 4) | 1,0 litros");
+        Assertions.assertEquals(gameManager.getCreatureInfoAsString(8), "8 | Idoso | Humano | James Bond | +1 @ (4, 4) | -4 | Lixívia @ (4, 4) | 1.0 litros");
         moveSuccessful = gameManager.move(4, 4, 3, 5); // Zombie 1 move para atacar o humano
         Assertions.assertTrue(moveSuccessful);
         Assertions.assertEquals(gameManager.getCreatureInfoAsString(8), "8 | Idoso | Humano | James Bond | +2 @ (3, 5) | -5 | Escudo de madeira @ (3, 5)");
@@ -234,6 +234,41 @@ public class TestGameManager {
 
         gameManager.getCreditsPanel();
 
+    }
+
+
+    @Test
+    public void GameIsOver1() throws InvalidFileException, IOException {
+        File file = new File("./test-files/7x7_poucos_zombies.txt");
+        Assertions.assertTrue(file.exists());
+        gameManager.loadGame(file);
+
+
+        // Zombie 1 move para a posição do Humano 6 e ataca
+        boolean moveSuccessful = gameManager.move(4, 3, 2, 1); // Zombie 1 move para atacar o humano
+        Assertions.assertTrue(moveSuccessful);
+        moveSuccessful = gameManager.move(1, 1, 0, 1); // Zombie 1 move para atacar o humano
+        Assertions.assertTrue(moveSuccessful);
+        gameManager.move(2, 1, 0, 1); // Zombie 1 move para atacar o humano
+
+        Assertions.assertTrue(gameManager.gameIsOver());
+    }
+
+    @Test
+    public void testHumanoCarregaOEquipamento() throws InvalidFileException, IOException {
+        File file = new File("./test-files/7x7_human_first_to_play.txt");
+        Assertions.assertTrue(file.exists());
+        gameManager.loadGame(file);
+
+        // Humano 6 move para a posição do Zombie 1 e ataca
+        boolean moveSuccessful = gameManager.move(4, 3, 2, 1); // Humano move para atacar o zombie
+        Assertions.assertTrue(moveSuccessful);
+        Assertions.assertEquals("H:7", gameManager.getSquareInfo(2, 1));
+        Assertions.assertEquals(gameManager.getCreatureInfoAsString(7), "7 | Adulto | Humano | Freddie M. | +1 @ (2, 1) | -3 | Pistola Walther PPK @ (2, 1) | 3 balas");
+        gameManager.move(1, 1, 1, 2); // Zombie move-se
+        gameManager.move(2, 1, 3, 1); // humano move
+
+        Assertions.assertEquals(gameManager.getCreatureInfoAsString(7), "7 | Adulto | Humano | Freddie M. | +1 @ (3, 1) | -3 | Pistola Walther PPK @ (3, 1) | 3 balas");
     }
 
 
