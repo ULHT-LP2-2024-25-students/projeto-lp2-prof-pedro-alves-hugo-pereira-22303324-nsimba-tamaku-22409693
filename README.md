@@ -6,6 +6,9 @@ Neste projeto/jogo decidimos separar ao máximo as resposabilidades das entidade
 
 ![](diagrama.PNG?raw=true "Diagrama UML")
 
+## Video demonstração do projeto
+https://youtu.be/6zXPsB4id7k
+
 ## Entidades do projeto
 
 | Nome da Entidade | Descrição |
