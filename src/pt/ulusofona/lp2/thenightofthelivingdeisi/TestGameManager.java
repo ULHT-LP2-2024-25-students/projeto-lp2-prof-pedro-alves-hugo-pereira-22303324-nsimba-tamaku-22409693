@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TestGameManager {
 
@@ -63,7 +64,7 @@ public class TestGameManager {
         boolean moveSuccessful = gameManager.move(3, 3, 2, 3); // Zombie 1 se move
         Assertions.assertTrue(moveSuccessful);
         Assertions.assertEquals("Z:1", gameManager.getSquareInfo(2, 3));
-        Assertions.assertNull(gameManager.getSquareInfo(3, 3));
+        Assertions.assertEquals(gameManager.getSquareInfo(3, 3), "");
         Assertions.assertEquals(1, gameManager.getGameSession().getTurnCounter());
     }
 
@@ -78,7 +79,7 @@ public class TestGameManager {
         boolean moveSuccessful = gameManager.move(3, 4, 3, 3); // Humano 6 se move
         Assertions.assertTrue(moveSuccessful);
         Assertions.assertEquals("H:6", gameManager.getSquareInfo(3, 3));
-        Assertions.assertNull(gameManager.getSquareInfo(3, 4));
+        Assertions.assertEquals(gameManager.getSquareInfo(3, 4), "");
         Assertions.assertEquals(2, gameManager.getGameSession().getTurnCounter());
     }
 
@@ -125,7 +126,7 @@ public class TestGameManager {
         // Humano 6 move de (3,4) para (3,5)
         gameManager.move(6, 5, 5, 5);
         Assertions.assertEquals("H:9", gameManager.getSquareInfo(5, 5));
-        Assertions.assertNull(gameManager.getSquareInfo(6, 5));
+        Assertions.assertEquals(gameManager.getSquareInfo(6, 5), "");
     }
 
     @Test
@@ -136,7 +137,7 @@ public class TestGameManager {
 
         // Zombie 1 move para uma posição com equipamento (Lixívia) e destrói o equipamento
         gameManager.move(5, 3, 4, 4); // Zombie 1 move para pegar o equipamento
-        Assertions.assertNull(gameManager.getSquareInfo(5, 3)); // Humano já não está
+        Assertions.assertEquals(gameManager.getSquareInfo(5, 3), ""); // Humano já não está
         Assertions.assertEquals(gameManager.getSquareInfo(4, 4), "Z:2");
         Assertions.assertEquals(gameManager.getCreatureInfoAsString(2), "2 | Adulto | Zombie | Walker | -1 @ (4, 4)");
     }
@@ -214,6 +215,25 @@ public class TestGameManager {
         Assertions.assertTrue(moveSuccessful);
         Assertions.assertEquals(gameManager.getCreatureInfoAsString(8), "8 | Idoso | Humano | James Bond | +2 @ (3, 5) | -5 | Escudo de madeira @ (3, 5)");
         Assertions.assertEquals(gameManager.getSquareInfo(4,4), "E:-4");
+    }
+
+
+    @Test
+    public void testSafeHeaven() throws InvalidFileException, IOException {
+        File file = new File("./test-files/7x7_human_close_sh.txt");
+        Assertions.assertTrue(file.exists());
+        gameManager.loadGame(file);
+        ArrayList<Integer> a =  new ArrayList<>();
+        a.add(9);
+
+        // Zombie 1 move para a posição do Humano 6 e ataca
+        boolean moveSuccessful = gameManager.move(6, 1, 6, 0); // Zombie 1 move para atacar o humano
+        Assertions.assertTrue(moveSuccessful);
+        Assertions.assertEquals("", gameManager.getSquareInfo(6, 1));
+        Assertions.assertEquals(a, gameManager.getIdsInSafeHaven()); // Humano atacado
+
+        gameManager.getCreditsPanel();
+
     }
 
 
