@@ -36,6 +36,11 @@ public class TestGameManager {
         Assertions.assertEquals("H:6", gameManager.getSquareInfo(3, 4));
         Assertions.assertEquals("SH", gameManager.getSquareInfo(6, 0));
         Assertions.assertEquals("SH", gameManager.getSquareInfo(0, 6));
+
+
+        String[] arr = gameManager.getCreatureInfo(6);
+
+        Assertions.assertArrayEquals(arr, new String [] {"6","Criança","Humano","Karate Kid","3","4", null});
     }
 
     @Test
