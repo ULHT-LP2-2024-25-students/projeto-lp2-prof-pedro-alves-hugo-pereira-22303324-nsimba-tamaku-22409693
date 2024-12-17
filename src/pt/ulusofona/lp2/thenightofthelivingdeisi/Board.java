@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Board {
-    int rows;
-    int cols;
-    BoardPiece[][] grid;
+    private int rows;
+    private int cols;
+    private BoardPiece[][] grid;
     private final ArrayList<Creature> creatures;
     private final ArrayList<Equipment> equipments;
     private final ArrayList<SafeHeavenDoor> safeHeavenDoors;
@@ -170,7 +170,7 @@ public class Board {
 
     public String getSquareInfo(Coord coord) {
         if (positionIsEmpty(coord) || coordIsOutOfBounds(coord)) {
-            return "";
+            return null;
         }
         BoardPiece boardPiece = grid[coord.getX()][coord.getY()];
         return boardPiece.getResumedInfo();

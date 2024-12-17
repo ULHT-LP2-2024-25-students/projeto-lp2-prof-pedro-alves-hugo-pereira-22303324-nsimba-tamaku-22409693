@@ -5,12 +5,16 @@ import java.util.Objects;
 
 public class GameSession {
     private Board board;
-    int turnCounter;
-    int shift;
-    boolean isDay;
+    private int turnCounter;
+    private int shift;
+    private boolean isDay;
 
     private static GameSession instance;
 
+
+    public Board getBoard() {
+        return board;
+    }
 
     private GameSession() {
         turnCounter = 0;

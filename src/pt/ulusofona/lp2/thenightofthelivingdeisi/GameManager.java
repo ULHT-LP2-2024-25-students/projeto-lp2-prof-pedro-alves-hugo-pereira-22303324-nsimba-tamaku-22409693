@@ -10,6 +10,10 @@ import java.util.List;
 public class GameManager {
     private GameSession gameSession;
 
+    public GameSession getGameSession() {
+        return gameSession;
+    }
+
     public GameManager() {
         this.gameSession = GameSession.getInstance();
     }
