@@ -1,5 +1,7 @@
 package pt.ulusofona.lp2.thenightofthelivingdeisi;
 
+import java.util.Locale;
+
 public class Bleach extends Equipment{
     private double liters;
 
@@ -21,7 +23,7 @@ public class Bleach extends Equipment{
     @Override
     public String getInfoAsString() {
         String typeEquipment = getAssocietedTypeName();
-        return String.format("%d | %s @ (%d, %d) | %.1f litros", id, typeEquipment, coord.getY(), coord.getX(), liters);
+        return String.format(Locale.US, "%d | %s @ (%d, %d) | %.1f litros", id, typeEquipment, coord.getY(), coord.getX(), liters);
     }
 
     @Override

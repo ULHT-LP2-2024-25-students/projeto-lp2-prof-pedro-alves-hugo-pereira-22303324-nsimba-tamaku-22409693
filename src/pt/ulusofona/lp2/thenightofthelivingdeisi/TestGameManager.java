@@ -271,5 +271,23 @@ public class TestGameManager {
         Assertions.assertEquals(gameManager.getCreatureInfoAsString(7), "7 | Adulto | Humano | Freddie M. | +1 @ (3, 1) | -3 | Pistola Walther PPK @ (3, 1) | 3 balas");
     }
 
+    @Test
+    public void testIdosoNaoCarregEquipamento() throws InvalidFileException, IOException {
+        File file = new File("./test-files/7x7_mais_equipamentos.txt");
+        Assertions.assertTrue(file.exists());
+        gameManager.loadGame(file);
+
+        // Zombie 1 move para a posição do Humano 6 e ataca
+        boolean moveSuccessful = gameManager.move(5, 5, 4, 4); // Zombie 1 move para atacar o humano
+        Assertions.assertTrue(moveSuccessful);
+        gameManager.move(1, 1, 1, 0); // Zombie move-se
+        gameManager.move(4, 3, 3, 2); // humano move-se
+        gameManager.move(1, 0, 1, 1); // Zombie move-se
+        moveSuccessful = gameManager.move(4, 4, 5, 5);
+        Assertions.assertTrue(moveSuccessful);
+
+        gameManager.getSurvivors();
+    }
+
 
 }
